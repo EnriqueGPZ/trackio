@@ -3,40 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trakio - Monitoriza Concentración y Estrés en Chrome</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Trakio es una app gratuita para Google Chrome que monitoriza tu concentración, estrés y rendimiento cognitivo en tiempo real. Diseñada para trabajadores de oficina, analiza tu frecuencia cardíaca y te ayuda a mantener el foco, prevenir la fatiga y optimizar tu productividad diaria. Funciona exclusivamente en navegadores con soporte para Bluetooth, como Google Chrome.">
-    <meta name="keywords" content="app gratuita estrés trabajo Chrome, monitorizar productividad en oficina, análisis HRV navegador Google Chrome, frecuencia cardíaca concentración, pulsera bluetooth oficina, app Chrome bienestar laboral, Trakio solo en Google Chrome, rendimiento cognitivo con pulso, salud mental en el trabajo digital, enfoque mental desde el navegador">
-
+    <title>Trakio - Inicio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Schema.org Markup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Trakio",
-      "description": "Trakio es una app gratuita que monitoriza estrés, concentración y rendimiento mental usando frecuencia cardíaca, diseñada para trabajadores de oficina. Compatible exclusivamente con Google Chrome.",
-      "applicationCategory": "HealthApplication",
-      "operatingSystem": "Web",
-      "browserRequirements": "Requires Google Chrome with Web Bluetooth support",
-      "offers": {
-        "@type": "Offer",
-        "price": "0.00",
-        "priceCurrency": "EUR"
-      },
-      "url": "https://TU_SITIO_WEB_AQUI.com", // <!-- CAMBIAR ESTO POR TU URL REAL -->
-      "publisher": {
-        "@type": "Organization",
-        "name": "Trakio"
-      },
-      "logo": "https://TU_SITIO_WEB_AQUI.com/logo-trakio.png" // <!-- CAMBIAR ESTO POR LA URL REAL DE TU LOGO -->
-    }
-    </script>
-
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
         .card { background-color: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); padding: 2rem; margin-bottom: 1.5rem; }
@@ -85,27 +55,18 @@
         .phase-button.active { border-color: #3b82f6; background-color: #eff6ff; box-shadow: 0 0 0 2px #bfdbfe;}
         #realtimeUserStatusDisplayContainer { position: fixed; bottom: 130px; right: 20px; padding: 0.5rem 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 99; font-size: 0.875rem; display: none; transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
         .section-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; padding-bottom: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e5e7eb; }
-        .compatibility-warning { background-color: #fffbeb; border-color: #fde68a; color: #92400e; padding: 0.75rem 1rem; border-radius: 8px; border-width: 1px; margin-bottom: 1.5rem; display: flex; align-items: center; }
-        .compatibility-warning svg { width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4 text-gray-800">
 
     <div class="w-full max-w-lg">
-        <header class="text-center mb-6"> <!-- Reduced mb slightly -->
+        <header class="text-center mb-10">
             <div class="flex justify-center mb-2"> 
-                <img src="logo.png" alt="Logo de Trakio - App gratuita para monitorizar concentración y estrés en Chrome" class="h-16 w-auto">
+                <img src="logo.png" alt="Trakio Logo" class="h-16 w-auto">
             </div>
-            <h1 class="text-xl font-medium text-gray-700 mt-2 mb-3 px-2">Mejora tu productividad con Trakio: la app gratuita para medir tu concentración y estrés desde el navegador.</h1>
+            <h1 class="text-xl font-medium text-gray-700 mt-2 mb-4 px-2">Mejora tu productividad con Trakio: la app gratuita para medir tu concentración y estrés desde el navegador.</h1>
             <p class="text-gray-600">Bienvenido/a. Configura tu perfil para comenzar.</p>
         </header>
-
-        <div id="browserCompatibilityWarning" class="compatibility-warning">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-            </svg>
-            <span>⚠️ Trakio solo funciona en Google Chrome (versión de escritorio) con Bluetooth activado.</span>
-        </div>
 
         <div class="card">
             <h2 class="section-title">1. Configuración Inicial</h2>
@@ -120,8 +81,8 @@
                 <button type="submit" id="btnSaveProfile" class="btn btn-success w-full mb-6">Guardar Perfil</button>
             </form>
             <div class="space-y-4">
-                <button type="button" id="btnOpenConnectBleModal" class="btn btn-primary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Conectar Dispositivo BLE</button>
-                <p id="bleGlobalStatus" class="text-sm text-center text-gray-500">Dispositivo BLE: No conectado</p>
+                <button type="button" id="btnOpenConnectBleModal" class="btn btn-primary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Conectar Pulsera Bluetooth</button>
+                <p id="bleGlobalStatus" class="text-sm text-center text-gray-500">Pulsera: No conectada</p>
                 <button type="button" id="btnStartCalibration" class="btn btn-secondary w-full" disabled><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Iniciar/Modificar Calibración</button>
                 <div id="calibrationStatusArea" class="text-center"><p id="lastCalibratedText" class="text-sm text-gray-600">Calibración: No realizada aún.</p></div>
                 <button type="button" id="btnShowHelp" class="btn btn-outline w-full mt-2"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>Ayuda y Leyenda</button>
@@ -130,7 +91,7 @@
 
         <div class="card">
             <h2 class="section-title">2. Seguimiento de Estado</h2>
-            <p id="realtimeAnalysisPrerequisites" class="text-sm text-center text-amber-700 bg-amber-50 p-3 rounded-md mb-4 hidden">Para iniciar el seguimiento: guarda tu perfil, conecta el dispositivo BLE y completa la calibración (manual o estimada) de "Reposo / Relajado", "Calma Activa" y "Estrés/Agitación".</p>
+            <p id="realtimeAnalysisPrerequisites" class="text-sm text-center text-amber-700 bg-amber-50 p-3 rounded-md mb-4 hidden">Para iniciar el seguimiento: guarda tu perfil, conecta la pulsera y completa la calibración (manual o estimada) de "Reposo / Relajado", "Calma Activa" y "Estrés/Agitación".</p>
             <button type="button" id="btnStartStopRealtimeAnalysis" class="btn btn-secondary w-full"><svg class="icon" id="realtimeAnalysisIconPlay" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 0 1 0 1.971l-11.54 6.347a1.125 1.125 0 0 1-1.667-.985V5.653Z" /></svg><svg class="icon hidden" id="realtimeAnalysisIconStop" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM10 9.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm0 4.5a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg><span id="btnStartStopRealtimeAnalysisText">Iniciar Seguimiento de Estado</span></button>
             <p id="realtimeAnalysisStatus" class="text-sm text-center text-gray-500 mt-2">Seguimiento: Detenido</p>
             <button type="button" id="btnShowSessionChart" class="btn btn-outline w-full mt-4 hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h12A2.25 2.25 0 0020.25 14.25V3M3.75 21h16.5M16.5 3.75h.008v.008H16.5V3.75z" /></svg>Ver Resumen de la Sesión Actual</button>
@@ -251,7 +212,6 @@
         historyModal: document.getElementById('historyModal'), historyModalClose: document.getElementById('historyModalClose'),
         sessionHistoryListContainer: document.getElementById('sessionHistoryListContainer'), noHistoryMessage: document.getElementById('noHistoryMessage'),
         btnCloseHistoryModal: document.getElementById('btnCloseHistoryModal'),
-        browserCompatibilityWarning: document.getElementById('browserCompatibilityWarning'),
     };
 
     function initDB() { return new Promise((resolve, reject) => {
@@ -368,7 +328,7 @@
 
     const HEART_RATE_SERVICE_UUID = 'heart_rate', HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID = 'heart_rate_measurement';
     ui.btnOpenConnectBleModal.addEventListener('click', () => {
-        if (!navigator.bluetooth) return alert("Web Bluetooth no es compatible con este navegador. Trakio requiere Google Chrome.");
+        if (!navigator.bluetooth) return alert("Web Bluetooth no es compatible con este navegador.");
         showModal(ui.bleConnectModal); 
         ui.bleConnectModal.querySelector('h3').textContent = 'Conectar Dispositivo BLE';
         ui.bleConnectModal.querySelector('#bleModalContent p:first-child').textContent = 'Asegúrate de que tu dispositivo de medición cardíaca (pulsera, banda pectoral, etc.) con Bluetooth Low Energy (BLE) esté encendido y cerca.';
@@ -659,29 +619,6 @@
         // Update texts related to BLE device
         ui.btnOpenConnectBleModal.innerHTML = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Conectar Dispositivo BLE`;
         ui.bleGlobalStatus.textContent = 'Dispositivo BLE: No conectado';
-        ui.realtimeAnalysisPrerequisites.textContent = 'Para iniciar el seguimiento: guarda tu perfil, conecta el dispositivo BLE y completa la calibración (manual o estimada) de "Reposo / Relajado", "Calma Activa" y "Estrés/Agitación".';
-
-
-        // Browser detection for Chrome
-        const userAgent = navigator.userAgent;
-        const isChrome = userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Edg/") === -1; // Check for Chrome and not Edge (Chromium)
-        
-        if (!isChrome) {
-            alert("⚠️ Trakio está optimizado y solo es compatible con Google Chrome (versión de escritorio) con Bluetooth activado. Algunas funciones podrían no estar disponibles o no funcionar correctamente en otros navegadores.");
-            if(ui.browserCompatibilityWarning) ui.browserCompatibilityWarning.style.display = 'none'; // Hide static warning if JS alert is shown
-        } else {
-            if(ui.browserCompatibilityWarning) ui.browserCompatibilityWarning.style.display = 'flex'; // Show static warning if it's Chrome (as a reminder)
-        }
-        if (!navigator.bluetooth) {
-             if(ui.browserCompatibilityWarning) {
-                ui.browserCompatibilityWarning.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" /></svg>
-                <span>⚠️ Trakio requiere Google Chrome con Web Bluetooth activado. Parece que Web Bluetooth no está disponible o habilitado en tu navegador.</span>`;
-                ui.browserCompatibilityWarning.style.display = 'flex';
-             }
-             if(ui.btnOpenConnectBleModal) ui.btnOpenConnectBleModal.disabled = true;
-             if(ui.btnGoToManualCalibration) ui.btnGoToManualCalibration.disabled = true;
-        }
-
     });
 </script>
 </body>
