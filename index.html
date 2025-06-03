@@ -61,10 +61,11 @@
 
     <div class="w-full max-w-lg">
         <header class="text-center mb-10">
-            <div class="flex justify-center mb-4"> <!-- Centered logo, increased bottom margin -->
-                <img src="logo.png" alt="Trakio Logo" class="h-16 w-auto"> <!-- Adjusted size, relative path -->
+            <div class="flex justify-center mb-2"> 
+                <img src="logo.png" alt="Trakio Logo" class="h-16 w-auto">
             </div>
-            <p class="text-gray-600">Bienvenido/a. Configura tu perfil para comenzar.</p> <!-- Removed mt-2 as mb-4 on logo div provides spacing -->
+            <h1 class="text-xl font-medium text-gray-700 mt-2 mb-4 px-2">Mejora tu productividad con Trakio: la app gratuita para medir tu concentración y estrés desde el navegador.</h1>
+            <p class="text-gray-600">Bienvenido/a. Configura tu perfil para comenzar.</p>
         </header>
 
         <div class="card">
@@ -105,7 +106,7 @@
             <div class="space-y-3 text-gray-700 text-sm">
                 <p>La calibración de frecuencia cardíaca es un paso crucial para que <strong class="font-semibold">Trakio</strong> pueda entender tus patrones de pulso únicos. Tienes dos opciones:</p>
                 <h4 class="font-semibold mt-3 text-base">1. Calibración Manual (Recomendado):</h4>
-                <p>Mides tu pulso con la pulsera en tres situaciones distintas:</p>
+                <p>Mides tu pulso con tu dispositivo de medición cardíaca (compatible con Bluetooth Low Energy - BLE), comúnmente una pulsera, en tres situaciones distintas:</p>
                 <ul class="list-disc list-inside ml-4 space-y-1">
                     <li><strong>Reposo / Relajado (3 min):</strong> Medir tu pulso en total calma, tumbado/a.</li>
                     <li><strong>En Calma Activa (Concentración Cognitiva) (5 min):</strong> Medir tu pulso mientras realizas una tarea tranquila que requiera tu concentración.</li>
@@ -113,7 +114,7 @@
                 </ul>
                 <p>Se registrarán tu FC media, mínima, máxima y el rango para cada fase.</p>
                 <h4 class="font-semibold mt-3 text-base">2. Usar Valores Estimados por Edad (Rápido):</h4>
-                <p>Usa valores promedio de FC basados en tu edad. Menos precisos, pero rápidos si no tienes pulsera o tiempo.</p>
+                <p>Usa valores promedio de FC basados en tu edad. Menos precisos, pero rápidos si no tienes un dispositivo BLE o tiempo.</p>
                 <p class="mt-2 text-xs text-gray-500">Es importante que tu edad esté guardada en tu perfil.</p>
             </div>
             <hr class="my-6 border-gray-300">
@@ -141,8 +142,8 @@
         </div>
     </div>
 
-    <div id="bleConnectModal" class="modal"><div class="modal-content max-w-md"><span id="bleConnectModalClose" class="modal-close-btn">×</span><h3 class="text-xl font-semibold mb-4 text-blue-600">Conectar Pulsera Bluetooth</h3><div id="bleModalContent"><p class="mb-4 text-gray-700">Asegúrate de que tu pulsera de frecuencia cardíaca esté encendida y cerca.</p><button id="btnScanBleDevice" class="btn btn-primary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>Buscar Dispositivos</button><div id="bleScanStatus" class="mt-4 text-center"></div><p id="bleDeviceInfo" class="mt-2 text-sm text-center text-green-600"></p><p id="bleError" class="mt-2 text-sm text-center text-red-600"></p><p id="currentPulseInModal" class="text-2xl font-bold text-center text-blue-500 mt-4">-- BPM</p></div></div></div>
-    <div id="calibrationModal" class="modal"><div class="modal-content max-w-xl"><span id="calibrationModalClose" class="modal-close-btn">×</span><h3 id="calibrationModalTitle" class="text-2xl font-semibold mb-6 text-blue-600 text-center">Calibración de Pulso</h3><div id="calibrationMethodSelectionView"><p class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-gray-700">Puedes calibrar tus valores de pulso de referencia manualmente usando una pulsera Bluetooth (recomendado para mayor precisión) o usar valores estimados basados en tu edad si tienes prisa o no dispones de pulsera.</p><h4 class="text-lg font-medium mb-3 text-gray-800">Elige un método:</h4><button id="btnGoToManualCalibration" class="btn btn-primary w-full mb-3"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Calibrar Manualmente con Pulsera (Recomendado)</button><button id="btnGoToEstimatedCalibration" class="btn btn-secondary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM10.5 16.5h.008v.008h-.008V16.5zm0-3h.008v.008h-.008V13.5z" /></svg>Usar Valores Estimados por Edad (Rápido)</button><p id="ageWarningForEstimation" class="text-sm text-red-600 mt-3 text-center hidden">Por favor, guarda tu edad en el perfil para usar esta opción.</p></div><div id="calibrationPhaseSelectionView" class="hidden"><div id="calibrationIntroText" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700"><p>Este módulo te permite registrar tus patrones de pulso en diferentes situaciones para personalizar las recomendaciones de la aplicación. Asegúrate de que tu pulsera esté conectada para la calibración manual.</p><p class="mt-2">Puedes realizar cada fase individualmente.</p></div><h4 class="text-lg font-medium mb-3 text-gray-800">Selecciona una fase para calibrar o re-calibrar manualmente:</h4><div id="calibrationPhaseButtonsContainer" class="space-y-3 mb-6"></div><p id="calibrationOverallStatus" class="text-sm text-center text-gray-600 mb-4"></p><button id="btnBackToMethodSelectionFromManual" class="btn btn-outline btn-sm w-full mt-2">Volver a Selección de Método</button></div><div id="calibrationEstimatedValuesView" class="hidden"><h4 class="text-lg font-medium mb-1 text-gray-800">Valores Estimados por Edad</h4><p class="text-sm text-gray-600 mb-4">Basado en tu edad (<span id="userAgeForEstimationDisplay"></span> años), estos son los rangos de frecuencia cardíaca promedio. Pulsa "Aplicar" para usarlos.</p><div id="estimatedValuesDisplayContainer" class="space-y-3 mb-6 p-4 bg-gray-50 rounded-lg"></div><div class="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-3"><button id="btnApplyEstimatedValues" class="btn btn-success w-full sm:w-auto px-8">Aplicar y Guardar Valores Estimados</button><button id="btnBackToMethodSelectionFromEstimated" class="btn btn-outline btn-sm w-full sm:w-auto">Volver a Selección de Método</button></div></div><div id="calibrationPhaseRunnerView" class="hidden"><div id="calibrationPhaseInstructions" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700"></div><div class="flex items-center justify-around mb-6"><div class="text-center"><p class="text-sm text-gray-500">Tiempo Restante</p><p id="calibrationTimerDisplay" class="text-3xl font-bold text-blue-500">--:--</p></div><div class="text-center"><p class="text-sm text-gray-500">Pulso Actual</p><p id="calibrationLivePulse" class="text-3xl font-bold text-red-500">-- BPM</p></div></div><div class="flex justify-center items-center space-x-3 mb-4"><button id="btnRunSelectedPhase" class="btn btn-primary px-8">Iniciar Medición</button><button id="btnCancelCurrentPhase" class="btn btn-outline btn-sm">Volver a Selección de Fase</button></div></div><div id="calibrationResultsArea" class="mt-6 space-y-4"></div><div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-3"><button id="btnSaveCalibration" class="btn btn-success">Guardar Cambios de Calibración</button><button id="btnCloseCalibrationModal" class="btn btn-secondary">Cerrar</button></div></div></div>
+    <div id="bleConnectModal" class="modal"><div class="modal-content max-w-md"><span id="bleConnectModalClose" class="modal-close-btn">×</span><h3 class="text-xl font-semibold mb-4 text-blue-600">Conectar Dispositivo BLE</h3><div id="bleModalContent"><p class="mb-4 text-gray-700">Asegúrate de que tu dispositivo de medición cardíaca (pulsera, banda pectoral, etc.) con Bluetooth Low Energy (BLE) esté encendido y cerca.</p><button id="btnScanBleDevice" class="btn btn-primary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>Buscar Dispositivos</button><div id="bleScanStatus" class="mt-4 text-center"></div><p id="bleDeviceInfo" class="mt-2 text-sm text-center text-green-600"></p><p id="bleError" class="mt-2 text-sm text-center text-red-600"></p><p id="currentPulseInModal" class="text-2xl font-bold text-center text-blue-500 mt-4">-- BPM</p></div></div></div>
+    <div id="calibrationModal" class="modal"><div class="modal-content max-w-xl"><span id="calibrationModalClose" class="modal-close-btn">×</span><h3 id="calibrationModalTitle" class="text-2xl font-semibold mb-6 text-blue-600 text-center">Calibración de Pulso</h3><div id="calibrationMethodSelectionView"><p class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-gray-700">Puedes calibrar tus valores de pulso de referencia manualmente usando un dispositivo de medición cardíaca Bluetooth Low Energy (BLE) (recomendado para mayor precisión) o usar valores estimados basados en tu edad si tienes prisa o no dispones de dispositivo BLE.</p><h4 class="text-lg font-medium mb-3 text-gray-800">Elige un método:</h4><button id="btnGoToManualCalibration" class="btn btn-primary w-full mb-3"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Calibrar Manualmente con Dispositivo BLE (Recomendado)</button><button id="btnGoToEstimatedCalibration" class="btn btn-secondary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM10.5 16.5h.008v.008h-.008V16.5zm0-3h.008v.008h-.008V13.5z" /></svg>Usar Valores Estimados por Edad (Rápido)</button><p id="ageWarningForEstimation" class="text-sm text-red-600 mt-3 text-center hidden">Por favor, guarda tu edad en el perfil para usar esta opción.</p></div><div id="calibrationPhaseSelectionView" class="hidden"><div id="calibrationIntroText" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700"><p>Este módulo te permite registrar tus patrones de pulso en diferentes situaciones para personalizar las recomendaciones de la aplicación. Asegúrate de que tu dispositivo BLE esté conectado para la calibración manual.</p><p class="mt-2">Puedes realizar cada fase individualmente.</p></div><h4 class="text-lg font-medium mb-3 text-gray-800">Selecciona una fase para calibrar o re-calibrar manualmente:</h4><div id="calibrationPhaseButtonsContainer" class="space-y-3 mb-6"></div><p id="calibrationOverallStatus" class="text-sm text-center text-gray-600 mb-4"></p><button id="btnBackToMethodSelectionFromManual" class="btn btn-outline btn-sm w-full mt-2">Volver a Selección de Método</button></div><div id="calibrationEstimatedValuesView" class="hidden"><h4 class="text-lg font-medium mb-1 text-gray-800">Valores Estimados por Edad</h4><p class="text-sm text-gray-600 mb-4">Basado en tu edad (<span id="userAgeForEstimationDisplay"></span> años), estos son los rangos de frecuencia cardíaca promedio. Pulsa "Aplicar" para usarlos.</p><div id="estimatedValuesDisplayContainer" class="space-y-3 mb-6 p-4 bg-gray-50 rounded-lg"></div><div class="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-3"><button id="btnApplyEstimatedValues" class="btn btn-success w-full sm:w-auto px-8">Aplicar y Guardar Valores Estimados</button><button id="btnBackToMethodSelectionFromEstimated" class="btn btn-outline btn-sm w-full sm:w-auto">Volver a Selección de Método</button></div></div><div id="calibrationPhaseRunnerView" class="hidden"><div id="calibrationPhaseInstructions" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700"></div><div class="flex items-center justify-around mb-6"><div class="text-center"><p class="text-sm text-gray-500">Tiempo Restante</p><p id="calibrationTimerDisplay" class="text-3xl font-bold text-blue-500">--:--</p></div><div class="text-center"><p class="text-sm text-gray-500">Pulso Actual</p><p id="calibrationLivePulse" class="text-3xl font-bold text-red-500">-- BPM</p></div></div><div class="flex justify-center items-center space-x-3 mb-4"><button id="btnRunSelectedPhase" class="btn btn-primary px-8">Iniciar Medición</button><button id="btnCancelCurrentPhase" class="btn btn-outline btn-sm">Volver a Selección de Fase</button></div></div><div id="calibrationResultsArea" class="mt-6 space-y-4"></div><div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-3"><button id="btnSaveCalibration" class="btn btn-success">Guardar Cambios de Calibración</button><button id="btnCloseCalibrationModal" class="btn btn-secondary">Cerrar</button></div></div></div>
     <div id="sessionChartModal" class="modal"><div class="modal-content max-w-3xl"><span id="sessionChartModalClose" class="modal-close-btn">×</span><h3 class="text-xl font-semibold mb-4 text-blue-600">Resumen Gráfico de la Sesión</h3><div class="w-full h-96"><canvas id="sessionStateChart"></canvas></div><div class="mt-6 flex justify-end space-x-3"><button id="btnSaveSessionData" class="btn btn-success">Guardar Datos de esta Sesión</button><button id="btnCloseChartModal" class="btn btn-secondary">Cerrar</button></div></div></div>
     <div id="historyModal" class="modal"><div class="modal-content max-w-2xl"><span id="historyModalClose" class="modal-close-btn">×</span><h3 class="text-xl font-semibold mb-4 text-blue-600">Historial de Sesiones Guardadas</h3><div id="sessionHistoryListContainer" class="space-y-3 max-h-96 overflow-y-auto"><p id="noHistoryMessage" class="text-gray-500 text-center hidden">No hay sesiones guardadas en el historial.</p></div><div class="mt-6 flex justify-end"><button id="btnCloseHistoryModal" class="btn btn-secondary">Cerrar</button></div></div></div>
 
@@ -327,29 +328,33 @@
 
     const HEART_RATE_SERVICE_UUID = 'heart_rate', HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID = 'heart_rate_measurement';
     ui.btnOpenConnectBleModal.addEventListener('click', () => {
-        if (!navigator.bluetooth) return alert("Web Bluetooth no es compatible.");
-        showModal(ui.bleConnectModal); ui.bleDeviceInfo.textContent = ''; ui.bleError.textContent = ''; ui.currentPulseInModal.textContent = '-- BPM';
+        if (!navigator.bluetooth) return alert("Web Bluetooth no es compatible con este navegador.");
+        showModal(ui.bleConnectModal); 
+        ui.bleConnectModal.querySelector('h3').textContent = 'Conectar Dispositivo BLE';
+        ui.bleConnectModal.querySelector('#bleModalContent p:first-child').textContent = 'Asegúrate de que tu dispositivo de medición cardíaca (pulsera, banda pectoral, etc.) con Bluetooth Low Energy (BLE) esté encendido y cerca.';
+        ui.bleDeviceInfo.textContent = ''; ui.bleError.textContent = ''; ui.currentPulseInModal.textContent = '-- BPM';
     });
     ui.btnScanBleDevice.addEventListener('click', async () => {
         ui.bleDeviceInfo.textContent = ''; ui.bleError.textContent = ''; ui.bleScanStatus.innerHTML = '<div class="spinner"></div><p>Buscando...</p>';
         try {
             appState.bleDevice = await navigator.bluetooth.requestDevice({ filters: [{ services: [HEART_RATE_SERVICE_UUID] }] });
-            ui.bleScanStatus.innerHTML = ''; ui.bleDeviceInfo.textContent = `Conectando a: ${appState.bleDevice.name || 'Dispositivo'}`;
+            ui.bleScanStatus.innerHTML = ''; ui.bleDeviceInfo.textContent = `Conectando a: ${appState.bleDevice.name || 'Dispositivo BLE'}`;
             appState.bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
             const server = await appState.bleDevice.gatt.connect();
-            ui.bleDeviceInfo.textContent = `Conectado a: ${appState.bleDevice.name || 'Dispositivo'} ✅`;
+            ui.bleDeviceInfo.textContent = `Conectado a: ${appState.bleDevice.name || 'Dispositivo BLE'} ✅`;
             const service = await server.getPrimaryService(HEART_RATE_SERVICE_UUID);
             appState.heartRateCharacteristic = await service.getCharacteristic(HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID);
             await appState.heartRateCharacteristic.startNotifications();
             appState.heartRateCharacteristic.addEventListener('characteristicvaluechanged', handleHeartRateMeasurement);
             appState.isBleDeviceConnected = true;
-            ui.bleGlobalStatus.textContent = `Pulsera: Conectada (${appState.bleDevice.name || 'dispositivo'})`;
+            ui.bleGlobalStatus.textContent = `Dispositivo BLE: Conectado (${appState.bleDevice.name || 'dispositivo'})`;
             ui.bleGlobalStatus.className = 'text-sm text-center text-green-600';
-            ui.btnOpenConnectBleModal.textContent = 'Pulsera Conectada'; ui.btnOpenConnectBleModal.disabled = true;
+            ui.btnOpenConnectBleModal.innerHTML = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Dispositivo BLE Conectado`;
+            ui.btnOpenConnectBleModal.disabled = true;
             ui.realtimePulseWidget.classList.add('visible'); closeModal(ui.bleConnectModal);
         } catch (error) {
             ui.bleScanStatus.innerHTML = ''; console.error('BLE Error:', error);
-            ui.bleError.textContent = error.name === 'NotFoundError' ? 'No se encontraron dispositivos.' : `Error: ${error.message}.`;
+            ui.bleError.textContent = error.name === 'NotFoundError' ? 'No se encontraron dispositivos BLE.' : `Error: ${error.message}.`;
             appState.isBleDeviceConnected = false;
         }
         updateControlButtonsState();
@@ -365,10 +370,11 @@
         ui.heartbeatPath.classList.remove('heartbeat-animation'); void ui.heartbeatPath.offsetWidth; ui.heartbeatPath.classList.add('heartbeat-animation');
     }
     function onDisconnected() {
-        if (appState.bleDevice) alert(`Pulsera ${appState.bleDevice.name || ''} desconectada.`);
+        if (appState.bleDevice) alert(`Dispositivo BLE ${appState.bleDevice.name || ''} desconectado.`);
         stopRealtimeAnalysis(); appState.isBleDeviceConnected = false; appState.bleDevice = null; appState.heartRateCharacteristic = null;
-        ui.bleGlobalStatus.textContent = 'Pulsera: Desconectada'; ui.bleGlobalStatus.className = 'text-sm text-center text-red-600';
-        ui.btnOpenConnectBleModal.textContent = 'Conectar Pulsera Bluetooth'; ui.btnOpenConnectBleModal.disabled = false;
+        ui.bleGlobalStatus.textContent = 'Dispositivo BLE: Desconectado'; ui.bleGlobalStatus.className = 'text-sm text-center text-red-600';
+        ui.btnOpenConnectBleModal.innerHTML = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Conectar Dispositivo BLE`;
+        ui.btnOpenConnectBleModal.disabled = false;
         ui.currentPulseInModal.textContent = '-- BPM'; ui.realtimePulseWidget.classList.remove('visible'); ui.pulseValueDisplay.textContent = '--';
         ui.realtimeUserStatusDisplayContainer.style.display = 'none';
         if (calibrationSession.isRunning) { alert("Conexión perdida. Fase de calibración manual detenida."); finishCalibrationPhaseMeasurement(true); }
@@ -388,11 +394,14 @@
         ui.calibrationModalTitle.textContent = "Calibración de Pulso";
         ['calibrationPhaseSelectionView', 'calibrationPhaseRunnerView', 'calibrationEstimatedValuesView'].forEach(v => ui[v].classList.add('hidden'));
         ui.calibrationMethodSelectionView.classList.remove('hidden'); ui.ageWarningForEstimation.classList.add('hidden');
+        ui.calibrationMethodSelectionView.querySelector('#btnGoToManualCalibration').innerHTML = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Calibrar Manualmente con Dispositivo BLE (Recomendado)`;
+        ui.calibrationMethodSelectionView.querySelector('p:first-of-type').textContent = 'Puedes calibrar tus valores de pulso de referencia manualmente usando un dispositivo de medición cardíaca Bluetooth Low Energy (BLE) (recomendado para mayor precisión) o usar valores estimados basados en tu edad si tienes prisa o no dispones de dispositivo BLE.';
         resetCalibrationSession(); renderCalibrationPhaseButtons(); displayOverallCalibrationResults();
     }
     ui.btnGoToManualCalibration.addEventListener('click', () => {
-        if (!appState.isBleDeviceConnected) return alert("Conecta tu pulsera Bluetooth para calibración manual.");
+        if (!appState.isBleDeviceConnected) return alert("Conecta tu dispositivo BLE para calibración manual.");
         ui.calibrationMethodSelectionView.classList.add('hidden'); ui.calibrationPhaseSelectionView.classList.remove('hidden');
+        ui.calibrationPhaseSelectionView.querySelector('#calibrationIntroText p:first-child').textContent = 'Este módulo te permite registrar tus patrones de pulso en diferentes situaciones para personalizar las recomendaciones de la aplicación. Asegúrate de que tu dispositivo BLE esté conectado para la calibración manual.';
         ui.calibrationModalTitle.textContent = "Calibración Manual"; renderCalibrationPhaseButtons(); displayOverallCalibrationResults();
     });
     ui.btnGoToEstimatedCalibration.addEventListener('click', () => {
@@ -440,14 +449,14 @@
     function preparePhaseForCalibration(idx) {
         resetCalibrationSession(); calibrationSession.activePhaseIndex = idx; const phase = CALIBRATION_PHASES[idx];
         ui.calibrationModalTitle.textContent = `Calibrar Manualmente: ${phase.name}`;
-        ui.calibrationPhaseInstructions.innerHTML = `<p class="font-semibold">Preparado para: ${phase.name}</p><p>${phase.instructions}</p><p class="mt-2 text-sm text-blue-600">Pulsa "Iniciar Medición" con la pulsera conectada.</p>${!appState.isBleDeviceConnected ? '<p class="mt-2 text-red-500 font-semibold">Pulsera no conectada.</p>' : ''}`;
+        ui.calibrationPhaseInstructions.innerHTML = `<p class="font-semibold">Preparado para: ${phase.name}</p><p>${phase.instructions}</p><p class="mt-2 text-sm text-blue-600">Pulsa "Iniciar Medición" con el dispositivo BLE conectado.</p>${!appState.isBleDeviceConnected ? '<p class="mt-2 text-red-500 font-semibold">Dispositivo BLE no conectado.</p>' : ''}`;
         ui.calibrationTimerDisplay.textContent = formatTime(phase.duration);
         ui.calibrationLivePulse.textContent = ui.pulseValueDisplay.textContent !== '--' ? `${ui.pulseValueDisplay.textContent} BPM` : "-- BPM";
         ui.btnRunSelectedPhase.textContent = "Iniciar Medición"; ui.btnRunSelectedPhase.disabled = !appState.isBleDeviceConnected; ui.btnCancelCurrentPhase.disabled = false;
         ui.calibrationPhaseSelectionView.classList.add('hidden'); ui.calibrationPhaseRunnerView.classList.remove('hidden');
     }
     function runSelectedPhaseMeasurement() {
-        if (calibrationSession.activePhaseIndex === -1 || !appState.isBleDeviceConnected) return alert("Selecciona fase y conecta pulsera.");
+        if (calibrationSession.activePhaseIndex === -1 || !appState.isBleDeviceConnected) return alert("Selecciona fase y conecta tu dispositivo BLE.");
         const phase = CALIBRATION_PHASES[calibrationSession.activePhaseIndex];
         calibrationSession.isRunning = true; calibrationSession.timeLeft = phase.duration; calibrationSession.pulseReadings = [];
         ui.calibrationPhaseInstructions.innerHTML = `<p class="font-semibold text-yellow-700">En curso: ${phase.name}</p><p>${phase.instructions}</p><p class="mt-2 text-sm text-yellow-600 bg-yellow-50 p-2 rounded">Mantén la actividad.</p>`;
@@ -567,7 +576,7 @@
 
     function startRealtimeAnalysis() {
         if (analysisIntervalTimerId) return;
-        if (!appState.isBleDeviceConnected) return alert("Pulsera no conectada.");
+        if (!appState.isBleDeviceConnected) return alert("Dispositivo BLE no conectado.");
         const calib = appState.profileData.calibrationData.phases;
         if (!(calib.absoluteRelaxation?.avg && calib.activeCalm?.avg && calib.aerobicExercise?.avg && calib.absoluteRelaxation.avg!=="N/A"&&calib.activeCalm.avg!=="N/A"&&calib.aerobicExercise.avg!=="N/A")) return alert("Calibración completa requerida.");
         dailySessionLog = []; ui.btnShowSessionChart.classList.add('hidden'); hrBufferForBlock = [];
@@ -606,6 +615,10 @@
         if (ui.historyModalClose) ui.historyModalClose.addEventListener('click', () => closeModal(ui.historyModal));
         if (ui.btnCloseHistoryModal) ui.btnCloseHistoryModal.addEventListener('click', () => closeModal(ui.historyModal));
         window.addEventListener('beforeunload', () => { if (analysisIntervalTimerId) stopRealtimeAnalysis(); });
+        
+        // Update texts related to BLE device
+        ui.btnOpenConnectBleModal.innerHTML = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Conectar Dispositivo BLE`;
+        ui.bleGlobalStatus.textContent = 'Dispositivo BLE: No conectado';
     });
 </script>
 </body>
