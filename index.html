@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulso Sereno - Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
+        .card { background-color: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); padding: 2rem; margin-bottom: 1.5rem; }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 500; transition: all 0.2s ease-in-out; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-primary { background-color: #3b82f6; color: white; }
+        .btn-primary:hover:not(:disabled) { background-color: #2563eb; }
+        .btn-primary:disabled { background-color: #93c5fd; cursor: not-allowed; }
+        .btn-secondary { background-color: #e5e7eb; color: #374151; }
+        .btn-secondary:hover:not(:disabled) { background-color: #d1d5db; }
+        .btn-secondary:disabled { background-color: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
+        .btn-outline { background-color: transparent; color: #3b82f6; border: 1px solid #3b82f6; }
+        .btn-outline:hover:not(:disabled) { background-color: #eff6ff; }
+        .btn-outline:disabled { background-color: transparent; color: #9ca3af; border-color: #d1d5db; cursor: not-allowed;}
+        .btn-success { background-color: #10b981; color: white; }
+        .btn-success:hover:not(:disabled) { background-color: #059669; }
+        .btn-info { background-color: #0ea5e9; color: white; } 
+        .btn-info:hover:not(:disabled) { background-color: #0284c7; }
+        .btn-danger { background-color: #ef4444; color: white; } 
+        .btn-danger:hover:not(:disabled) { background-color: #dc2626; }
+        .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
+        .input-field { width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 8px; transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
+        .input-field:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px #bfdbfe; }
+        .label-text { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #4b5563; }
+        .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow-y: auto; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding-top: 2rem; padding-bottom: 2rem;}
+        .modal-content { background-color: #fff; margin: auto; padding: 2rem; border-radius: 12px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
+        .modal-content.max-w-md { max-width: 500px; }
+        .modal-content.max-w-xl { max-width: 672px; }
+        .modal-content.max-w-2xl { max-width: 768px; } 
+        .modal-content.max-w-3xl { max-width: 896px; } 
+        .modal-close-btn { position: absolute; top: 1rem; right: 1rem; color: #9ca3af; font-size: 1.5rem; font-weight: bold; cursor: pointer; }
+        .modal-close-btn:hover { color: #374151; }
+        .icon { width: 1.25em; height: 1.25em; margin-right: 0.5em; }
+        .spinner { border: 4px solid rgba(0, 0, 0, 0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: #3b82f6; animation: spin 1s ease infinite; margin: 1rem auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #realtimePulseWidget { position: fixed; bottom: 20px; right: 20px; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); padding: 1rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); z-index: 100; display: none; align-items: center; gap: 0.75rem; transition: opacity 0.3s ease; }
+        #realtimePulseWidget.visible { display: flex; }
+        #pulseValueDisplay { font-size: 1.75rem; font-weight: 700; color: #ef4444; line-height: 1; }
+        #pulseUnit { font-size: 0.875rem; color: #4b5563; align-self: flex-end; padding-bottom: 4px; }
+        #heartbeatSvg { width: 40px; height: 40px; }
+        #heartbeatPath { stroke: #ef4444; stroke-width: 2.5; fill: transparent; transition: transform 0.1s ease-out; }
+        .heartbeat-animation { animation: pulse-beat 0.8s ease-in-out; }
+        @keyframes pulse-beat { 0% { transform: scale(1); } 20% { transform: scale(1.25); } 40% { transform: scale(1); } 100% { transform: scale(1); } }
+        .phase-button { border: 1px solid #d1d5db; padding: 0.75rem 1rem; border-radius: 8px; text-align: left; transition: all 0.2s ease; }
+        .phase-button:hover { border-color: #3b82f6; background-color: #eff6ff;}
+        .phase-button.completed { border-left-width: 4px; border-left-color: #10b981; background-color: #f0fdf4; }
+        .phase-button.active { border-color: #3b82f6; background-color: #eff6ff; box-shadow: 0 0 0 2px #bfdbfe;}
+        #realtimeUserStatusDisplayContainer { position: fixed; bottom: 130px; right: 20px; padding: 0.5rem 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 99; font-size: 0.875rem; display: none; transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        .section-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; padding-bottom: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e5e7eb; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 text-gray-800">
+
+    <div class="w-full max-w-lg">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-blue-600">Pulso Sereno</h1>
+            <p class="text-gray-600 mt-2">Bienvenido/a. Configura tu perfil para comenzar.</p>
+        </header>
+
+        <div class="card">
+            <h2 class="section-title">1. Configuración Inicial</h2>
+            <form id="userProfileForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div><label for="userName" class="label-text">Nombre</label><input type="text" id="userName" name="userName" class="input-field" placeholder="Tu nombre" required></div>
+                    <div><label for="userAge" class="label-text">Edad</label><input type="number" id="userAge" name="userAge" class="input-field" placeholder="Ej: 30" min="1" max="120"></div>
+                    <div><label for="userWeight" class="label-text">Peso (kg)</label><input type="number" id="userWeight" name="userWeight" class="input-field" placeholder="Ej: 70" min="1" step="0.1"></div>
+                    <div><label for="userHeight" class="label-text">Altura (cm)</label><input type="number" id="userHeight" name="userHeight" class="input-field" placeholder="Ej: 175" min="50" max="250" step="0.1"></div>
+                    <div><label for="userGender" class="label-text">Género</label><select id="userGender" name="userGender" class="input-field"><option value="">Seleccionar...</option><option value="masculino">Masculino</option><option value="femenino">Femenino</option><option value="otro">Otro</option><option value="prefiero_no_decir">Prefiero no decir</option></select></div>
+                </div>
+                <button type="submit" id="btnSaveProfile" class="btn btn-success w-full mb-6">Guardar Perfil</button>
+            </form>
+            <div class="space-y-4">
+                <button type="button" id="btnOpenConnectBleModal" class="btn btn-primary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Conectar Pulsera Bluetooth</button>
+                <p id="bleGlobalStatus" class="text-sm text-center text-gray-500">Pulsera: No conectada</p>
+                <button type="button" id="btnStartCalibration" class="btn btn-secondary w-full" disabled><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Iniciar/Modificar Calibración</button>
+                <div id="calibrationStatusArea" class="text-center"><p id="lastCalibratedText" class="text-sm text-gray-600">Calibración: No realizada aún.</p></div>
+                <button type="button" id="btnShowHelp" class="btn btn-outline w-full mt-2"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>Ayuda y Leyenda</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">2. Seguimiento de Estado</h2>
+            <p id="realtimeAnalysisPrerequisites" class="text-sm text-center text-amber-700 bg-amber-50 p-3 rounded-md mb-4 hidden">Para iniciar el seguimiento: guarda tu perfil, conecta la pulsera y completa la calibración (manual o estimada) de "Reposo / Relajado", "Calma Activa" y "Estrés/Agitación".</p>
+            <button type="button" id="btnStartStopRealtimeAnalysis" class="btn btn-secondary w-full"><svg class="icon" id="realtimeAnalysisIconPlay" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 0 1 0 1.971l-11.54 6.347a1.125 1.125 0 0 1-1.667-.985V5.653Z" /></svg><svg class="icon hidden" id="realtimeAnalysisIconStop" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM10 9.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm0 4.5a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg><span id="btnStartStopRealtimeAnalysisText">Iniciar Seguimiento de Estado</span></button>
+            <p id="realtimeAnalysisStatus" class="text-sm text-center text-gray-500 mt-2">Seguimiento: Detenido</p>
+            <button type="button" id="btnShowSessionChart" class="btn btn-outline w-full mt-4 hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h12A2.25 2.25 0 0020.25 14.25V3M3.75 21h16.5M16.5 3.75h.008v.008H16.5V3.75z" /></svg>Ver Resumen de la Sesión Actual</button>
+            <button type="button" id="btnShowHistory" class="btn btn-info w-full mt-2"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>Ver Historial de Sesiones</button>
+        </div>
+    </div>
+
+    <div id="helpModal" class="modal">
+        <div class="modal-content max-w-xl">
+            <span id="helpModalClose" class="modal-close-btn">&times;</span>
+            <h3 class="text-xl font-semibold mb-4 text-blue-600">Acerca de la Calibración</h3>
+            <div class="space-y-3 text-gray-700 text-sm">
+                <p>La calibración de frecuencia cardíaca es un paso crucial para que <strong class="font-semibold">Pulso Sereno</strong> pueda entender tus patrones de pulso únicos. Tienes dos opciones:</p>
+                <h4 class="font-semibold mt-3 text-base">1. Calibración Manual (Recomendado):</h4>
+                <p>Mides tu pulso con la pulsera en tres situaciones distintas:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong>Reposo / Relajado (3 min):</strong> Medir tu pulso en total calma, tumbado/a.</li>
+                    <li><strong>En Calma Activa (Concentración Cognitiva) (5 min):</strong> Medir tu pulso mientras realizas una tarea tranquila que requiera tu concentración.</li>
+                    <li><strong>Estrés o Agitación (Ejercicio Ligero) (1 min):</strong> Medir tu pulso con una actividad física ligera.</li>
+                </ul>
+                <p>Se registrarán tu FC media, mínima, máxima y el rango para cada fase.</p>
+                <h4 class="font-semibold mt-3 text-base">2. Usar Valores Estimados por Edad (Rápido):</h4>
+                <p>Usa valores promedio de FC basados en tu edad. Menos precisos, pero rápidos si no tienes pulsera o tiempo.</p>
+                <p class="mt-2 text-xs text-gray-500">Es importante que tu edad esté guardada en tu perfil.</p>
+            </div>
+            <hr class="my-6 border-gray-300">
+            <h3 class="text-xl font-semibold mb-4 text-blue-600">🪧 Leyenda: ¿Qué significan estos valores?</h3>
+            <div class="space-y-4 text-gray-700 text-sm">
+                <h4 class="font-semibold mt-3 text-base">🔹 ¿Cómo se calculan los valores?</h4>
+                <p>La app analiza tu frecuencia cardíaca (FC) usando dos fórmulas:</p>
+                <div class="ml-4 space-y-2"><p><strong>1. IEE (Índice Estimado Emocional):</strong> Compara tu FC actual con tus referencias de calibración.<br><span class="italic block my-1 text-center text-xs bg-gray-100 p-1 rounded">IEE = (FC<sub>actual</sub> - FC<sub>concentrado</sub>) / (FC<sub>estrés</sub> - FC<sub>reposo</sub>)</span></p></div>
+                <div class="ml-4 space-y-2 mt-3"><p><strong>2. SI (Índice de Estrés de Baevsky):</strong> Analiza la variabilidad entre tus latidos (HRV).</p></div>
+                <h4 class="font-semibold mt-5 text-base">🔹 ¿Qué significan los resultados?</h4>
+                <p>Rangos orientativos (tu respuesta individual puede variar):</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><p class="font-medium">IEE</p><ul class="list-disc list-inside ml-4 text-xs space-y-1"><li>Valores bajos (ej. &lt; 0) indican calma/reposo.</li><li>Valores crecientes (ej. &gt; 0.15) sugieren activación/estrés.</li></ul></div>
+                    <div><p class="font-medium">SI (Baevsky)</p><ul class="list-disc list-inside ml-4 text-xs space-y-1"><li>&lt; 150: Calma/recuperación. Muy bajos (&lt;50) pueden ser somnolencia.</li><li>150–500: Activación normal, concentración, estrés leve/moderado.</li><li>&gt; 500: Estrés alto, tensión, fatiga.</li></ul></div>
+                </div>
+                <h4 class="font-semibold mt-5 text-base">🔹 Resumen del estado (interpretación de la app)</h4>
+                <div class="overflow-x-auto mt-2"><table class="min-w-full text-xs border border-gray-300"><thead class="bg-gray-100"><tr><th class="p-2 border-b text-left">Estado</th><th class="p-2 border-b text-left">IEE Típico</th><th class="p-2 border-b text-left">SI Típico</th><th class="p-2 border-b text-left">Significado</th></tr></thead><tbody>
+                <tr><td class="p-2 border-b">Relajado</td><td class="p-2 border-b">&lt; -0.1</td><td class="p-2 border-b">&lt; ~100-150</td><td class="p-2 border-b">Tranquilo, reposo.</td></tr>
+                <tr><td class="p-2 border-b">Concentrado</td><td class="p-2 border-b">-0.1 a 0.15</td><td class="p-2 border-b">&lt; ~150</td><td class="p-2 border-b">Enfocado, calma activa.</td></tr>
+                <tr><td class="p-2 border-b">Estresado</td><td class="p-2 border-b">&gt; 0.15 o SI &gt; 150-200</td><td class="p-2 border-b">&gt; ~150-200</td><td class="p-2 border-b">Estrés, tensión, fatiga.</td></tr>
+                <tr><td class="p-2 border-b">Indeterminado</td><td class="p-2 border-b">N/A</td><td class="p-2 border-b">N/A</td><td class="p-2 border-b">Datos insuficientes.</td></tr>
+                </tbody></table></div>
+                <p class="mt-4 text-xs text-gray-500">💡 Calibra para obtener resultados más precisos para ti.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bleConnectModal" class="modal"><div class="modal-content max-w-md"><span id="bleConnectModalClose" class="modal-close-btn">&times;</span><h3 class="text-xl font-semibold mb-4 text-blue-600">Conectar Pulsera Bluetooth</h3><div id="bleModalContent"><p class="mb-4 text-gray-700">Asegúrate de que tu pulsera de frecuencia cardíaca esté encendida y cerca.</p><button id="btnScanBleDevice" class="btn btn-primary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>Buscar Dispositivos</button><div id="bleScanStatus" class="mt-4 text-center"></div><p id="bleDeviceInfo" class="mt-2 text-sm text-center text-green-600"></p><p id="bleError" class="mt-2 text-sm text-center text-red-600"></p><p id="currentPulseInModal" class="text-2xl font-bold text-center text-blue-500 mt-4">-- BPM</p></div></div></div>
+    <div id="calibrationModal" class="modal"><div class="modal-content max-w-xl"><span id="calibrationModalClose" class="modal-close-btn">&times;</span><h3 id="calibrationModalTitle" class="text-2xl font-semibold mb-6 text-blue-600 text-center">Calibración de Pulso</h3><div id="calibrationMethodSelectionView"><p class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-gray-700">Puedes calibrar tus valores de pulso de referencia manualmente usando una pulsera Bluetooth (recomendado para mayor precisión) o usar valores estimados basados en tu edad si tienes prisa o no dispones de pulsera.</p><h4 class="text-lg font-medium mb-3 text-gray-800">Elige un método:</h4><button id="btnGoToManualCalibration" class="btn btn-primary w-full mb-3"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Calibrar Manualmente con Pulsera (Recomendado)</button><button id="btnGoToEstimatedCalibration" class="btn btn-secondary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM10.5 16.5h.008v.008h-.008V16.5zm0-3h.008v.008h-.008V13.5z" /></svg>Usar Valores Estimados por Edad (Rápido)</button><p id="ageWarningForEstimation" class="text-sm text-red-600 mt-3 text-center hidden">Por favor, guarda tu edad en el perfil para usar esta opción.</p></div><div id="calibrationPhaseSelectionView" class="hidden"><div id="calibrationIntroText" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700"><p>Este módulo te permite registrar tus patrones de pulso en diferentes situaciones para personalizar las recomendaciones de la aplicación. Asegúrate de que tu pulsera esté conectada para la calibración manual.</p><p class="mt-2">Puedes realizar cada fase individualmente.</p></div><h4 class="text-lg font-medium mb-3 text-gray-800">Selecciona una fase para calibrar o re-calibrar manualmente:</h4><div id="calibrationPhaseButtonsContainer" class="space-y-3 mb-6"></div><p id="calibrationOverallStatus" class="text-sm text-center text-gray-600 mb-4"></p><button id="btnBackToMethodSelectionFromManual" class="btn btn-outline btn-sm w-full mt-2">Volver a Selección de Método</button></div><div id="calibrationEstimatedValuesView" class="hidden"><h4 class="text-lg font-medium mb-1 text-gray-800">Valores Estimados por Edad</h4><p class="text-sm text-gray-600 mb-4">Basado en tu edad (<span id="userAgeForEstimationDisplay"></span> años), estos son los rangos de frecuencia cardíaca promedio. Pulsa "Aplicar" para usarlos.</p><div id="estimatedValuesDisplayContainer" class="space-y-3 mb-6 p-4 bg-gray-50 rounded-lg"></div><div class="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-3"><button id="btnApplyEstimatedValues" class="btn btn-success w-full sm:w-auto px-8">Aplicar y Guardar Valores Estimados</button><button id="btnBackToMethodSelectionFromEstimated" class="btn btn-outline btn-sm w-full sm:w-auto">Volver a Selección de Método</button></div></div><div id="calibrationPhaseRunnerView" class="hidden"><div id="calibrationPhaseInstructions" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700"></div><div class="flex items-center justify-around mb-6"><div class="text-center"><p class="text-sm text-gray-500">Tiempo Restante</p><p id="calibrationTimerDisplay" class="text-3xl font-bold text-blue-500">--:--</p></div><div class="text-center"><p class="text-sm text-gray-500">Pulso Actual</p><p id="calibrationLivePulse" class="text-3xl font-bold text-red-500">-- BPM</p></div></div><div class="flex justify-center items-center space-x-3 mb-4"><button id="btnRunSelectedPhase" class="btn btn-primary px-8">Iniciar Medición</button><button id="btnCancelCurrentPhase" class="btn btn-outline btn-sm">Volver a Selección de Fase</button></div></div><div id="calibrationResultsArea" class="mt-6 space-y-4"></div><div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-3"><button id="btnSaveCalibration" class="btn btn-success">Guardar Cambios de Calibración</button><button id="btnCloseCalibrationModal" class="btn btn-secondary">Cerrar</button></div></div></div>
+    <div id="sessionChartModal" class="modal"><div class="modal-content max-w-3xl"><span id="sessionChartModalClose" class="modal-close-btn">&times;</span><h3 class="text-xl font-semibold mb-4 text-blue-600">Resumen Gráfico de la Sesión</h3><div class="w-full h-96"><canvas id="sessionStateChart"></canvas></div><div class="mt-6 flex justify-end space-x-3"><button id="btnSaveSessionData" class="btn btn-success">Guardar Datos de esta Sesión</button><button id="btnCloseChartModal" class="btn btn-secondary">Cerrar</button></div></div></div>
+    <div id="historyModal" class="modal"><div class="modal-content max-w-2xl"><span id="historyModalClose" class="modal-close-btn">&times;</span><h3 class="text-xl font-semibold mb-4 text-blue-600">Historial de Sesiones Guardadas</h3><div id="sessionHistoryListContainer" class="space-y-3 max-h-96 overflow-y-auto"><p id="noHistoryMessage" class="text-gray-500 text-center hidden">No hay sesiones guardadas en el historial.</p></div><div class="mt-6 flex justify-end"><button id="btnCloseHistoryModal" class="btn btn-secondary">Cerrar</button></div></div></div>
+
+    <div id="realtimePulseWidget"><svg id="heartbeatSvg" viewBox="0 0 100 100"><path id="heartbeatPath" d="M10 50 Q 20 10, 30 50 T 50 50 Q 60 10, 70 50 T 90 50" /></svg><div><span id="pulseValueDisplay">--</span><span id="pulseUnit">BPM</span></div></div>
+    <div id="realtimeUserStatusDisplayContainer"><span id="realtimeUserStatusText">Estado: Indeterminado</span></div>
+
+<script>
+    const DB_NAME = 'PulsoSerenoDB_Direct';
+    const DB_VERSION = 2;
+    const PROFILE_STORE_NAME = 'userProfileStore';
+    const SESSION_LOG_STORE_NAME = 'sessionLogsStore';
+    let db;
+    let currentChartInstance = null;
+    const USER_PROFILE_DB_KEY = 1;
+
+    let appState = {
+        isProfileSaved: false, isBleDeviceConnected: false, bleDevice: null, heartRateCharacteristic: null,
+        profileData: { userAge: null, calibrationData: { phases: {}, lastCalibrated: null } }
+    };
+    let calibrationSession = { activePhaseIndex: -1, isRunning: false, timerId: null, timeLeft: 0, pulseReadings: [] };
+
+    const CALIBRATION_PHASES = [
+        { name: "Reposo / Relajado", id: "absoluteRelaxation", duration: 180, instructions: "Acuéstate en un lugar tranquilo, cierra los ojos, relájate completamente en silencio. Intenta no pensar en nada." },
+        { name: "En Calma Activa (Concentración Cognitiva)", id: "activeCalm", duration: 300, instructions: "Siéntate cómodamente frente a tu ordenador. Durante los próximos 5 minutos, realiza una actividad que requiera tu concentración pero que sea calmada. Por ejemplo: escribe un texto, navega por tus canales de video favoritos y mira algo que te interese, busca información sobre algo que necesites comprar online, o realiza alguna tarea similar que mantenga tu mente ocupada de forma tranquila." },
+        { name: "Estrés o Agitación (Ejercicio Ligero)", id: "aerobicExercise", duration: 60, instructions: "De pie, realiza un ejercicio aeróbico ligero como saltos de tijera (jumping jacks) o levantar las rodillas alternativamente. Mantén un ritmo constante." }
+    ];
+    const AGE_BASED_HR_RANGES = [
+        { ageMin: 15, ageMax: 25, reposo: [60, 70], concentrado: [65, 75], estres: [85, 100] }, { ageMin: 26, ageMax: 35, reposo: [60, 70], concentrado: [65, 78], estres: [85, 105] },
+        { ageMin: 36, ageMax: 45, reposo: [62, 72], concentrado: [68, 80], estres: [90, 110] }, { ageMin: 46, ageMax: 55, reposo: [65, 75], concentrado: [70, 82], estres: [90, 115] },
+        { ageMin: 56, ageMax: 65, reposo: [65, 78], concentrado: [72, 85], estres: [90, 115] }, { ageMin: 66, ageMax: 120, reposo: [66, 80], concentrado: [72, 86], estres: [90, 110] }
+    ];
+    const ANALYSIS_BLOCK_DURATION_S = 120;
+    const PROCESS_BLOCK_INTERVAL_MS = 10000;
+    const MIN_HR_READINGS_FOR_BLOCK = Math.floor(ANALYSIS_BLOCK_DURATION_S * 0.8);
+    let hrBufferForBlock = [];
+    let analysisIntervalTimerId = null;
+    let dailySessionLog = [];
+
+    const ui = {
+        userProfileForm: document.getElementById('userProfileForm'), btnSaveProfile: document.getElementById('btnSaveProfile'), btnOpenConnectBleModal: document.getElementById('btnOpenConnectBleModal'),
+        btnStartCalibration: document.getElementById('btnStartCalibration'), btnShowHelp: document.getElementById('btnShowHelp'), btnStartStopRealtimeAnalysis: document.getElementById('btnStartStopRealtimeAnalysis'),
+        realtimeAnalysisIconPlay: document.getElementById('realtimeAnalysisIconPlay'), realtimeAnalysisIconStop: document.getElementById('realtimeAnalysisIconStop'),
+        btnStartStopRealtimeAnalysisText: document.getElementById('btnStartStopRealtimeAnalysisText'), realtimeAnalysisPrerequisites: document.getElementById('realtimeAnalysisPrerequisites'),
+        realtimeAnalysisStatus: document.getElementById('realtimeAnalysisStatus'), btnShowSessionChart: document.getElementById('btnShowSessionChart'), btnShowHistory: document.getElementById('btnShowHistory'),
+        helpModal: document.getElementById('helpModal'), helpModalClose: document.getElementById('helpModalClose'), bleConnectModal: document.getElementById('bleConnectModal'),
+        bleConnectModalClose: document.getElementById('bleConnectModalClose'), btnScanBleDevice: document.getElementById('btnScanBleDevice'), bleScanStatus: document.getElementById('bleScanStatus'),
+        bleDeviceInfo: document.getElementById('bleDeviceInfo'), bleError: document.getElementById('bleError'), bleGlobalStatus: document.getElementById('bleGlobalStatus'),
+        currentPulseInModal: document.getElementById('currentPulseInModal'), realtimePulseWidget: document.getElementById('realtimePulseWidget'),
+        pulseValueDisplay: document.getElementById('pulseValueDisplay'), heartbeatPath: document.getElementById('heartbeatPath'), calibrationModal: document.getElementById('calibrationModal'),
+        calibrationModalClose: document.getElementById('calibrationModalClose'), calibrationModalTitle: document.getElementById('calibrationModalTitle'),
+        calibrationMethodSelectionView: document.getElementById('calibrationMethodSelectionView'), btnGoToManualCalibration: document.getElementById('btnGoToManualCalibration'),
+        btnGoToEstimatedCalibration: document.getElementById('btnGoToEstimatedCalibration'), ageWarningForEstimation: document.getElementById('ageWarningForEstimation'),
+        calibrationPhaseSelectionView: document.getElementById('calibrationPhaseSelectionView'), calibrationPhaseButtonsContainer: document.getElementById('calibrationPhaseButtonsContainer'),
+        calibrationOverallStatus: document.getElementById('calibrationOverallStatus'), btnBackToMethodSelectionFromManual: document.getElementById('btnBackToMethodSelectionFromManual'),
+        calibrationEstimatedValuesView: document.getElementById('calibrationEstimatedValuesView'), userAgeForEstimationDisplay: document.getElementById('userAgeForEstimationDisplay'),
+        estimatedValuesDisplayContainer: document.getElementById('estimatedValuesDisplayContainer'), btnApplyEstimatedValues: document.getElementById('btnApplyEstimatedValues'),
+        btnBackToMethodSelectionFromEstimated: document.getElementById('btnBackToMethodSelectionFromEstimated'), calibrationPhaseRunnerView: document.getElementById('calibrationPhaseRunnerView'),
+        calibrationPhaseInstructions: document.getElementById('calibrationPhaseInstructions'), calibrationTimerDisplay: document.getElementById('calibrationTimerDisplay'),
+        calibrationLivePulse: document.getElementById('calibrationLivePulse'), btnRunSelectedPhase: document.getElementById('btnRunSelectedPhase'),
+        btnCancelCurrentPhase: document.getElementById('btnCancelCurrentPhase'), calibrationResultsArea: document.getElementById('calibrationResultsArea'),
+        btnSaveCalibration: document.getElementById('btnSaveCalibration'), btnCloseCalibrationModal: document.getElementById('btnCloseCalibrationModal'),
+        lastCalibratedText: document.getElementById('lastCalibratedText'), realtimeUserStatusDisplayContainer: document.getElementById('realtimeUserStatusDisplayContainer'),
+        realtimeUserStatusText: document.getElementById('realtimeUserStatusText'), sessionChartModal: document.getElementById('sessionChartModal'),
+        sessionChartModalClose: document.getElementById('sessionChartModalClose'), sessionStateChartCanvas: document.getElementById('sessionStateChart'),
+        btnSaveSessionData: document.getElementById('btnSaveSessionData'), btnCloseChartModal: document.getElementById('btnCloseChartModal'),
+        historyModal: document.getElementById('historyModal'), historyModalClose: document.getElementById('historyModalClose'),
+        sessionHistoryListContainer: document.getElementById('sessionHistoryListContainer'), noHistoryMessage: document.getElementById('noHistoryMessage'),
+        btnCloseHistoryModal: document.getElementById('btnCloseHistoryModal'),
+    };
+
+    function initDB() { return new Promise((resolve, reject) => {
+        if (db) return resolve(db);
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onerror = e => { console.error("DB error:", e.target.error); reject(e.target.error); };
+        request.onsuccess = e => { db = e.target.result; resolve(db); };
+        request.onupgradeneeded = e => {
+            const tempDb = e.target.result;
+            if (!tempDb.objectStoreNames.contains(PROFILE_STORE_NAME)) tempDb.createObjectStore(PROFILE_STORE_NAME, { keyPath: 'id' });
+            if (!tempDb.objectStoreNames.contains(SESSION_LOG_STORE_NAME)) tempDb.createObjectStore(SESSION_LOG_STORE_NAME, { keyPath: 'sessionId' });
+        };
+    });}
+    function saveUserProfile(profileData) { return new Promise(async (resolve, reject) => {
+        if (!db) { try { await initDB(); } catch(e) { reject(e); return; } }
+        const tx = db.transaction([PROFILE_STORE_NAME], 'readwrite');
+        tx.oncomplete = () => resolve();
+        tx.onerror = e => { console.error("Save profile error:", e.target.error); reject(e.target.error); };
+        tx.objectStore(PROFILE_STORE_NAME).put(profileData);
+    });}
+    function getUserProfile(profileKey) { return new Promise(async (resolve, reject) => {
+        if (!db) { try { await initDB(); } catch(e) { reject(e); return; } }
+        const request = db.transaction([PROFILE_STORE_NAME], 'readonly').objectStore(PROFILE_STORE_NAME).get(profileKey);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = e => { console.error("Read profile error:", e.target.error); reject(e.target.error); };
+    });}
+    function saveSessionLog(sessionData) { return new Promise(async (resolve, reject) => {
+        if (!db) { try { await initDB(); } catch(e) { reject(e); return; } }
+        if (!sessionData || !sessionData.log || sessionData.log.length === 0) return reject("No hay datos de sesión para guardar.");
+        const tx = db.transaction([SESSION_LOG_STORE_NAME], 'readwrite');
+        tx.oncomplete = () => { console.log("Datos de sesión guardados:", sessionData.sessionId); resolve(); };
+        tx.onerror = e => { console.error("Error guardando datos de sesión:", e.target.error); reject(e.target.error); };
+        tx.objectStore(SESSION_LOG_STORE_NAME).put(sessionData);
+    });}
+    function getSessionLogById(sessionId) { return new Promise(async (resolve, reject) => {
+        if (!db) { try { await initDB(); } catch (e) { reject(e); return; } }
+        const request = db.transaction([SESSION_LOG_STORE_NAME], 'readonly').objectStore(SESSION_LOG_STORE_NAME).get(sessionId);
+        request.onsuccess = () => request.result ? resolve(request.result) : reject(`No se encontró la sesión: ${sessionId}`);
+        request.onerror = e => { console.error("Error obteniendo sesión por ID:", e.target.error); reject(e.target.error); };
+    });}
+    function getAllSessionLogs() { return new Promise(async (resolve, reject) => {
+        if (!db) { try { await initDB(); } catch (e) { reject(e); return; } }
+        const request = db.transaction([SESSION_LOG_STORE_NAME], 'readonly').objectStore(SESSION_LOG_STORE_NAME).getAll();
+        request.onsuccess = () => resolve(request.result.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)));
+        request.onerror = e => { console.error("Error obteniendo todos los logs:", e.target.error); reject(e.target.error); };
+    });}
+    function deleteSessionLogById(sessionId) { return new Promise(async (resolve, reject) => {
+        if (!db) { try { await initDB(); } catch (e) { reject(e); return; } }
+        const tx = db.transaction([SESSION_LOG_STORE_NAME], 'readwrite');
+        tx.objectStore(SESSION_LOG_STORE_NAME).delete(sessionId);
+        tx.oncomplete = () => { console.log(`Sesión ${sessionId} eliminada.`); resolve(); };
+        tx.onerror = e => { console.error(`Error eliminando sesión ${sessionId}:`, e.target.error); reject(e.target.error); };
+    });}
+
+    function showModal(modalElement) { modalElement.style.display = 'flex'; }
+    function closeModal(modalElement) { modalElement.style.display = 'none'; }
+    function formatTime(seconds) { const m=Math.floor(seconds/60),s=seconds%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
+
+    function updateControlButtonsState() {
+        const profileReady = appState.isProfileSaved, bleReady = appState.isBleDeviceConnected;
+        let calib = appState.profileData.calibrationData?.phases || {};
+        const allCalibDone = calib.absoluteRelaxation?.avg && calib.activeCalm?.avg && calib.aerobicExercise?.avg &&
+                             calib.absoluteRelaxation.avg !== "N/A" && calib.activeCalm.avg !== "N/A" && calib.aerobicExercise.avg !== "N/A";
+        ui.btnStartCalibration.disabled = !profileReady;
+        ui.btnStartCalibration.classList.toggle('btn-primary', profileReady); ui.btnStartCalibration.classList.toggle('btn-secondary', !profileReady);
+        const analysisCanStart = profileReady && bleReady && allCalibDone;
+        ui.btnStartStopRealtimeAnalysis.disabled = !analysisCanStart;
+        ui.realtimeAnalysisPrerequisites.classList.toggle('hidden', analysisCanStart);
+        const isAnalyzing = !!analysisIntervalTimerId;
+        ui.btnStartStopRealtimeAnalysis.classList.toggle('btn-success', isAnalyzing);
+        ui.btnStartStopRealtimeAnalysis.classList.toggle('btn-primary', !isAnalyzing && analysisCanStart);
+        ui.btnStartStopRealtimeAnalysis.classList.toggle('btn-secondary', !isAnalyzing && !analysisCanStart);
+        ui.btnStartStopRealtimeAnalysisText.textContent = isAnalyzing ? "Detener Seguimiento" : "Iniciar Seguimiento de Estado";
+        ui.realtimeAnalysisIconPlay.classList.toggle('hidden', isAnalyzing);
+        ui.realtimeAnalysisIconStop.classList.toggle('hidden', !isAnalyzing);
+        ui.realtimeAnalysisStatus.textContent = `Seguimiento: ${isAnalyzing ? 'Activo' : 'Detenido'}`;
+        ui.realtimeAnalysisStatus.className = `text-sm text-center mt-2 ${isAnalyzing ? 'text-green-600' : 'text-gray-500'}`;
+        ui.btnShowSessionChart.classList.toggle('hidden', isAnalyzing || dailySessionLog.length === 0);
+    }
+
+    async function loadProfileFromDB() {
+        try {
+            const profile = await getUserProfile(USER_PROFILE_DB_KEY);
+            if (profile) {
+                appState.isProfileSaved = true;
+                appState.profileData = { ...appState.profileData, ...profile };
+                if (!appState.profileData.calibrationData) appState.profileData.calibrationData = { phases: {}, lastCalibrated: null };
+                else if (!appState.profileData.calibrationData.phases) appState.profileData.calibrationData.phases = {};
+                ['userName', 'userAge', 'userWeight', 'userHeight', 'userGender'].forEach(key => {
+                    if (ui.userProfileForm[key]) ui.userProfileForm[key].value = profile[key] ?? (key === 'userGender' ? '' : null);
+                });
+                ui.btnSaveProfile.textContent = 'Actualizar Perfil';
+            } else {
+                appState.isProfileSaved = false; ui.btnSaveProfile.textContent = 'Guardar Perfil';
+            }
+        } catch (e) { console.error("Error cargando perfil:", e); appState.isProfileSaved = false; }
+        updateLastCalibratedDisplay(); updateControlButtonsState();
+    }
+    ui.userProfileForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const fd = new FormData(ui.userProfileForm);
+        const pData = { id: USER_PROFILE_DB_KEY, userName: fd.get('userName')?.trim(), userAge: fd.get('userAge') ? parseInt(fd.get('userAge')) : null,
+            userWeight: fd.get('userWeight') ? parseFloat(fd.get('userWeight')) : null, userHeight: fd.get('userHeight') ? parseFloat(fd.get('userHeight')) : null,
+            userGender: fd.get('userGender') || null, createdAt: appState.profileData.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString(), calibrationData: appState.profileData.calibrationData };
+        if (!pData.userName) return alert("El nombre es obligatorio.");
+        try {
+            await saveUserProfile(pData);
+            alert(appState.isProfileSaved ? 'Perfil actualizado.' : 'Perfil guardado.');
+            appState.isProfileSaved = true; appState.profileData = { ...pData };
+            ui.btnSaveProfile.textContent = 'Actualizar Perfil'; updateControlButtonsState();
+        } catch (error) { alert("Error al guardar perfil."); }
+    });
+
+    const HEART_RATE_SERVICE_UUID = 'heart_rate', HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID = 'heart_rate_measurement';
+    ui.btnOpenConnectBleModal.addEventListener('click', () => {
+        if (!navigator.bluetooth) return alert("Web Bluetooth no es compatible.");
+        showModal(ui.bleConnectModal); ui.bleDeviceInfo.textContent = ''; ui.bleError.textContent = ''; ui.currentPulseInModal.textContent = '-- BPM';
+    });
+    ui.btnScanBleDevice.addEventListener('click', async () => {
+        ui.bleDeviceInfo.textContent = ''; ui.bleError.textContent = ''; ui.bleScanStatus.innerHTML = '<div class="spinner"></div><p>Buscando...</p>';
+        try {
+            appState.bleDevice = await navigator.bluetooth.requestDevice({ filters: [{ services: [HEART_RATE_SERVICE_UUID] }] });
+            ui.bleScanStatus.innerHTML = ''; ui.bleDeviceInfo.textContent = `Conectando a: ${appState.bleDevice.name || 'Dispositivo'}`;
+            appState.bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
+            const server = await appState.bleDevice.gatt.connect();
+            ui.bleDeviceInfo.textContent = `Conectado a: ${appState.bleDevice.name || 'Dispositivo'} ✅`;
+            const service = await server.getPrimaryService(HEART_RATE_SERVICE_UUID);
+            appState.heartRateCharacteristic = await service.getCharacteristic(HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID);
+            await appState.heartRateCharacteristic.startNotifications();
+            appState.heartRateCharacteristic.addEventListener('characteristicvaluechanged', handleHeartRateMeasurement);
+            appState.isBleDeviceConnected = true;
+            ui.bleGlobalStatus.textContent = `Pulsera: Conectada (${appState.bleDevice.name || 'dispositivo'})`;
+            ui.bleGlobalStatus.className = 'text-sm text-center text-green-600';
+            ui.btnOpenConnectBleModal.textContent = 'Pulsera Conectada'; ui.btnOpenConnectBleModal.disabled = true;
+            ui.realtimePulseWidget.classList.add('visible'); closeModal(ui.bleConnectModal);
+        } catch (error) {
+            ui.bleScanStatus.innerHTML = ''; console.error('BLE Error:', error);
+            ui.bleError.textContent = error.name === 'NotFoundError' ? 'No se encontraron dispositivos.' : `Error: ${error.message}.`;
+            appState.isBleDeviceConnected = false;
+        }
+        updateControlButtonsState();
+    });
+    function handleHeartRateMeasurement(event) {
+        const val = event.target.value, flags = val.getUint8(0), hr = (flags & 0x1) ? val.getUint16(1, true) : val.getUint8(1);
+        if (analysisIntervalTimerId) addHrToBuffer(hr, Date.now());
+        ui.currentPulseInModal.textContent = `${hr} BPM`; ui.pulseValueDisplay.textContent = hr;
+        if (ui.calibrationModal.style.display === 'flex' && ui.calibrationPhaseRunnerView.style.display !== 'none') {
+            ui.calibrationLivePulse.textContent = `${hr} BPM`;
+            if (calibrationSession.isRunning && calibrationSession.activePhaseIndex !== -1) calibrationSession.pulseReadings.push(hr);
+        }
+        ui.heartbeatPath.classList.remove('heartbeat-animation'); void ui.heartbeatPath.offsetWidth; ui.heartbeatPath.classList.add('heartbeat-animation');
+    }
+    function onDisconnected() {
+        if (appState.bleDevice) alert(`Pulsera ${appState.bleDevice.name || ''} desconectada.`);
+        stopRealtimeAnalysis(); appState.isBleDeviceConnected = false; appState.bleDevice = null; appState.heartRateCharacteristic = null;
+        ui.bleGlobalStatus.textContent = 'Pulsera: Desconectada'; ui.bleGlobalStatus.className = 'text-sm text-center text-red-600';
+        ui.btnOpenConnectBleModal.textContent = 'Conectar Pulsera Bluetooth'; ui.btnOpenConnectBleModal.disabled = false;
+        ui.currentPulseInModal.textContent = '-- BPM'; ui.realtimePulseWidget.classList.remove('visible'); ui.pulseValueDisplay.textContent = '--';
+        ui.realtimeUserStatusDisplayContainer.style.display = 'none';
+        if (calibrationSession.isRunning) { alert("Conexión perdida. Fase de calibración manual detenida."); finishCalibrationPhaseMeasurement(true); }
+        updateControlButtonsState();
+    };
+
+    [ui.helpModalClose, ui.bleConnectModalClose, ui.calibrationModalClose, ui.btnCloseCalibrationModal, ui.sessionChartModalClose, ui.btnCloseChartModal, ui.historyModalClose, ui.btnCloseHistoryModal].forEach(btn => {
+        if(btn) btn.addEventListener('click', () => closeModal(btn.closest('.modal')));
+    });
+    ui.btnShowHelp.addEventListener('click', () => showModal(ui.helpModal));
+    window.addEventListener('click', (event) => {
+        if (event.target.classList.contains('modal')) closeModal(event.target);
+    });
+    
+    function resetCalibrationSession() { if (calibrationSession.timerId) clearInterval(calibrationSession.timerId); calibrationSession = { activePhaseIndex: -1, isRunning: false, timerId: null, timeLeft: 0, pulseReadings: [] }; }
+    function showCalibrationMethodSelection() {
+        ui.calibrationModalTitle.textContent = "Calibración de Pulso";
+        ['calibrationPhaseSelectionView', 'calibrationPhaseRunnerView', 'calibrationEstimatedValuesView'].forEach(v => ui[v].classList.add('hidden'));
+        ui.calibrationMethodSelectionView.classList.remove('hidden'); ui.ageWarningForEstimation.classList.add('hidden');
+        resetCalibrationSession(); renderCalibrationPhaseButtons(); displayOverallCalibrationResults();
+    }
+    ui.btnGoToManualCalibration.addEventListener('click', () => {
+        if (!appState.isBleDeviceConnected) return alert("Conecta tu pulsera Bluetooth para calibración manual.");
+        ui.calibrationMethodSelectionView.classList.add('hidden'); ui.calibrationPhaseSelectionView.classList.remove('hidden');
+        ui.calibrationModalTitle.textContent = "Calibración Manual"; renderCalibrationPhaseButtons(); displayOverallCalibrationResults();
+    });
+    ui.btnGoToEstimatedCalibration.addEventListener('click', () => {
+        if (appState.profileData.userAge == null || appState.profileData.userAge === '') return ui.ageWarningForEstimation.classList.remove('hidden');
+        ui.ageWarningForEstimation.classList.add('hidden'); ui.calibrationMethodSelectionView.classList.add('hidden');
+        ui.calibrationEstimatedValuesView.classList.remove('hidden'); ui.calibrationModalTitle.textContent = "Valores Estimados por Edad";
+        displayEstimatedValuesForUser();
+    });
+    [ui.btnBackToMethodSelectionFromManual, ui.btnBackToMethodSelectionFromEstimated].forEach(btn => btn.addEventListener('click', showCalibrationMethodSelection));
+    function displayEstimatedValuesForUser() {
+        const age = appState.profileData.userAge; ui.userAgeForEstimationDisplay.textContent = age;
+        const estimates = getHrEstimatesByAge(age); ui.estimatedValuesDisplayContainer.innerHTML = '';
+        if (!estimates) { ui.estimatedValuesDisplayContainer.innerHTML = `<p class="text-red-500">No se pudieron obtener estimaciones para la edad ${age}.</p>`; ui.btnApplyEstimatedValues.disabled = true; return; }
+        ui.btnApplyEstimatedValues.disabled = false;
+        CALIBRATION_PHASES.forEach(pI => { const est = estimates[pI.id]; if(est) ui.estimatedValuesDisplayContainer.innerHTML += `<div class="p-3 border rounded-md"><strong class="text-blue-600">${pI.name}:</strong><br>Rango: <span class="font-semibold">${est.min}-${est.max} BPM</span>, Media: <span class="font-semibold">${est.avg} BPM</span></div>`; });
+    }
+    ui.btnApplyEstimatedValues.addEventListener('click', async () => {
+        const estimates = getHrEstimatesByAge(appState.profileData.userAge);
+        if (!estimates) return alert("No se pudieron aplicar valores estimados. Verifica tu edad.");
+        if (!appState.profileData.calibrationData.phases) appState.profileData.calibrationData.phases = {};
+        let changes = false;
+        CALIBRATION_PHASES.forEach(pI => { const est = estimates[pI.id]; if(est){ appState.profileData.calibrationData.phases[pI.id] = {avg:est.avg,min:est.min,max:est.max,rango:est.max-est.min,timestamp:new Date().toISOString(),source:'estimated'}; changes=true;}});
+        if (changes) { await handleSaveCalibration("Valores estimados aplicados."); showCalibrationMethodSelection(); } else alert("No se aplicaron cambios.");
+    });
+    function renderCalibrationPhaseButtons() {
+        ui.calibrationPhaseButtonsContainer.innerHTML = '';
+        CALIBRATION_PHASES.forEach((phase, index) => {
+            const r = appState.profileData.calibrationData.phases[phase.id];
+            const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'phase-button w-full flex justify-between items-center';
+            let sTxt = (r && r.source) ? (r.source === 'estimated' ? ' (Estimado)' : ' (Manual)') : '';
+            if (r && r.avg !== "N/A") btn.classList.add('completed');
+            let txt = (r && r.avg !== "N/A") ? `Media:${r.avg}, Mín:${r.min}, Máx:${r.max}, Rango:${r.rango}${sTxt}` : 'Pendiente';
+            btn.innerHTML = `<div><span class="font-semibold text-gray-800">${phase.name}</span><span class="block text-xs text-gray-500">${phase.duration/60} min - ${txt}</span></div><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+            btn.onclick = () => preparePhaseForCalibration(index); ui.calibrationPhaseButtonsContainer.appendChild(btn);
+        });
+        updateOverallCalibrationStatus();
+    }
+    function updateOverallCalibrationStatus() {
+        const phases = appState.profileData.calibrationData.phases || {}; const count = Object.values(phases).filter(p=>p&&p.avg!=="N/A").length;
+        let txt="Ninguna fase con valores.", cls="text-gray-600";
+        if(count===CALIBRATION_PHASES.length){txt="¡Todas las fases tienen valores!";cls="text-green-600 font-medium";}
+        else if(count>0){txt=`${count} de ${CALIBRATION_PHASES.length} fases con valores.`;cls="text-yellow-700";}
+        ui.calibrationOverallStatus.textContent=txt; ui.calibrationOverallStatus.className=`text-sm text-center ${cls} mb-4`;
+    }
+    function preparePhaseForCalibration(idx) {
+        resetCalibrationSession(); calibrationSession.activePhaseIndex = idx; const phase = CALIBRATION_PHASES[idx];
+        ui.calibrationModalTitle.textContent = `Calibrar Manualmente: ${phase.name}`;
+        ui.calibrationPhaseInstructions.innerHTML = `<p class="font-semibold">Preparado para: ${phase.name}</p><p>${phase.instructions}</p><p class="mt-2 text-sm text-blue-600">Pulsa "Iniciar Medición" con la pulsera conectada.</p>${!appState.isBleDeviceConnected ? '<p class="mt-2 text-red-500 font-semibold">Pulsera no conectada.</p>' : ''}`;
+        ui.calibrationTimerDisplay.textContent = formatTime(phase.duration);
+        ui.calibrationLivePulse.textContent = ui.pulseValueDisplay.textContent !== '--' ? `${ui.pulseValueDisplay.textContent} BPM` : "-- BPM";
+        ui.btnRunSelectedPhase.textContent = "Iniciar Medición"; ui.btnRunSelectedPhase.disabled = !appState.isBleDeviceConnected; ui.btnCancelCurrentPhase.disabled = false;
+        ui.calibrationPhaseSelectionView.classList.add('hidden'); ui.calibrationPhaseRunnerView.classList.remove('hidden');
+    }
+    function runSelectedPhaseMeasurement() {
+        if (calibrationSession.activePhaseIndex === -1 || !appState.isBleDeviceConnected) return alert("Selecciona fase y conecta pulsera.");
+        const phase = CALIBRATION_PHASES[calibrationSession.activePhaseIndex];
+        calibrationSession.isRunning = true; calibrationSession.timeLeft = phase.duration; calibrationSession.pulseReadings = [];
+        ui.calibrationPhaseInstructions.innerHTML = `<p class="font-semibold text-yellow-700">En curso: ${phase.name}</p><p>${phase.instructions}</p><p class="mt-2 text-sm text-yellow-600 bg-yellow-50 p-2 rounded">Mantén la actividad.</p>`;
+        ui.btnRunSelectedPhase.textContent = "Medición en Progreso..."; ui.btnRunSelectedPhase.disabled = true;
+        calibrationSession.timerId = setInterval(() => {
+            calibrationSession.timeLeft--; ui.calibrationTimerDisplay.textContent = formatTime(calibrationSession.timeLeft);
+            if (calibrationSession.timeLeft <= 0) finishCalibrationPhaseMeasurement(false);
+        }, 1000);
+    }
+    function finishCalibrationPhaseMeasurement(premature = false) {
+        if(calibrationSession.timerId) clearInterval(calibrationSession.timerId); calibrationSession.timerId = null; calibrationSession.isRunning = false;
+        const idx = calibrationSession.activePhaseIndex; if(idx === -1) return; const phase = CALIBRATION_PHASES[idx];
+        let msg = premature ? `Medición de "${phase.name}" detenida.` : `Medición de "${phase.name}" completada.`;
+        if (calibrationSession.pulseReadings.length > 0) {
+            const min = Math.min(...calibrationSession.pulseReadings), max = Math.max(...calibrationSession.pulseReadings),
+                  avg = Math.round(calibrationSession.pulseReadings.reduce((s,v)=>s+v,0)/calibrationSession.pulseReadings.length), rango = max - min;
+            if(!appState.profileData.calibrationData.phases) appState.profileData.calibrationData.phases={};
+            appState.profileData.calibrationData.phases[phase.id] = {avg,min,max,rango,timestamp:new Date().toISOString(), source: 'manual'};
+            msg += ` Resultados: Media ${avg}, Mín ${min}, Máx ${max}, Rango ${rango}. Guarda los cambios.`;
+        } else if (!premature) msg += " No se registraron pulsaciones.";
+        alert(msg);
+        ui.calibrationModalTitle.textContent = "Calibración Manual"; ui.calibrationPhaseRunnerView.classList.add('hidden'); 
+        ui.calibrationPhaseSelectionView.classList.remove('hidden'); resetCalibrationSession();
+        renderCalibrationPhaseButtons(); displayOverallCalibrationResults();
+    }
+    function displayOverallCalibrationResults() {
+        ui.calibrationResultsArea.innerHTML = ''; const phases = appState.profileData.calibrationData.phases || {};
+        if(!Object.values(phases).some(p=>p&&p.avg!=="N/A")) return ui.calibrationResultsArea.innerHTML='<p class="text-center text-gray-500">No hay datos de calibración.</p>';
+        let html = '<h4 class="text-lg font-medium mb-2 text-gray-700">Valores de Referencia:</h4><ul class="space-y-2">';
+        CALIBRATION_PHASES.forEach(pI => { const r=phases[pI.id]; let sTxt=(r&&r.source)?(r.source==='estimated'?' <span class="text-xs bg-blue-100 text-blue-700 px-1 rounded">Est.</span>':' <span class="text-xs bg-green-100 text-green-700 px-1 rounded">Man.</span>'):'';
+            html += `<li class="p-3 bg-gray-50 rounded-md shadow-sm"><strong class="text-blue-600">${pI.name}:</strong>${sTxt}<br>`;
+            html += (r&&r.avg!=="N/A")?`M:${r.avg},m:${r.min},X:${r.max},R:${r.rango}<span class="block text-xs text-gray-400">Act: ${new Date(r.timestamp).toLocaleDateString()}</span>`:`<span class="text-gray-400">N/E</span>`; html += `</li>`;});
+        html += '</ul>'; ui.calibrationResultsArea.innerHTML = html;
+    }
+    async function handleSaveCalibration(msg = "Cambios de calibración guardados.") {
+        if(!appState.profileData || !Object.values(appState.profileData.calibrationData.phases||{}).some(p=>p&&p.avg!=="N/A")) return alert("Realiza/aplica al menos una medición válida.");
+        appState.profileData.calibrationData.lastCalibrated = new Date().toISOString();
+        try { await saveUserProfile(appState.profileData); alert(msg); updateLastCalibratedDisplay(); updateControlButtonsState(); renderCalibrationPhaseButtons(); displayOverallCalibrationResults(); }
+        catch (e) { alert("Error guardando calibración.");}
+    }
+    function updateLastCalibratedDisplay() {
+        const cd = appState.profileData.calibrationData;
+        if(cd && cd.lastCalibrated) { const d=new Date(cd.lastCalibrated); ui.lastCalibratedText.textContent = `Val. Ref. Act: ${d.toLocaleDateString()} ${d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`; ui.lastCalibratedText.className='text-sm text-green-700 font-medium';}
+        else { ui.lastCalibratedText.textContent = "Calibración/Estimación: No realizada."; ui.lastCalibratedText.className='text-sm text-gray-600';}
+    }
+    ui.btnStartCalibration.addEventListener('click', () => { if(ui.btnStartCalibration.disabled) return; showCalibrationMethodSelection(); showModal(ui.calibrationModal); });
+    ui.btnRunSelectedPhase.addEventListener('click', runSelectedPhaseMeasurement);
+    ui.btnCancelCurrentPhase.addEventListener('click', () => { if(calibrationSession.isRunning && !confirm("¿Cancelar medición manual?")) return; finishCalibrationPhaseMeasurement(true); });
+    ui.btnSaveCalibration.addEventListener('click', () => handleSaveCalibration());
+
+    function mapStateToNumeric(s){const l=s.split(" ")[0].toLowerCase();if(l.includes("relajado"))return 1;if(l.includes("concentrado"))return 2;if(l.includes("estresado"))return 3;return 0;}
+    function generateSessionChart(logData = dailySessionLog) {
+        if (!logData || logData.length === 0) { alert("No hay datos de sesión para mostrar."); if (ui.sessionChartModal.style.display === 'flex' && logData !== dailySessionLog) closeModal(ui.sessionChartModal); return; }
+        if (currentChartInstance) currentChartInstance.destroy();
+        const labels=[],dataPoints=[],pointColors=[], ssc={'relajado':'rgba(75,192,192,1)','concentrado':'rgba(54,162,235,1)','estresado':'rgba(255,99,132,1)','indeterminado':'rgba(201,203,207,1)'};
+        let sT=new Date(logData[0].timestamp).getTime();
+        logData.forEach(e=>{const tOff=Math.round((new Date(e.timestamp).getTime()-sT)/(1000*60));labels.push(`${tOff} min`);dataPoints.push(mapStateToNumeric(e.estado_detectado));const sK=e.estado_detectado.split(" ")[0].toLowerCase();pointColors.push(ssc[sK]||ssc.indeterminado);});
+        const data={labels,datasets:[{label:'Estado Fisiológico',data:dataPoints,borderColor:pointColors,backgroundColor:pointColors.map(c=>c.replace('1)','0.3)')),tension:0.1,fill:true,pointRadius:5,pointBackgroundColor:pointColors}]};
+        const config={type:'line',data,options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:4,ticks:{stepSize:1,callback:v=>{if(v===1)return 'Relajado';if(v===2)return 'Concentrado';if(v===3)return 'Estresado';if(v===0)return 'Indeterminado';return null;}},title:{display:true,text:'Estado Detectado'}},x:{title:{display:true,text:'Tiempo (min)'}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{let l='';const y=ctx.parsed.y;if(y===1)l+='Relajado';else if(y===2)l+='Concentrado';else if(y===3)l+='Estresado';else l+='Indeterminado';const oDP=logData[ctx.dataIndex];if(oDP){if(oDP.iee!==null)l+=` (IEE:${oDP.iee})`;if(oDP.si_baevsky!==null)l+=` (SI:${oDP.si_baevsky})`;}return l;}}}}}};
+        currentChartInstance=new Chart(ui.sessionStateChartCanvas,config);showModal(ui.sessionChartModal);
+        const isCurrent=(logData===dailySessionLog);ui.btnSaveSessionData.disabled=!isCurrent;ui.btnSaveSessionData.classList.toggle('hidden',!isCurrent);
+    }
+    function renderSessionHistoryUI(sessions) {
+        ui.sessionHistoryListContainer.innerHTML = ''; ui.noHistoryMessage.classList.toggle('hidden', sessions && sessions.length > 0);
+        if (!sessions || sessions.length === 0) return;
+        sessions.forEach(s => {
+            const div=document.createElement('div');div.className='p-3 border rounded-lg shadow-sm bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2';
+            const info=document.createElement('div'),date=new Date(s.timestamp);info.innerHTML=`<p class="font-semibold text-gray-700">ID: <span class="font-normal">${s.sessionId.slice(-6)}</span></p><p class="text-sm text-gray-500">Fecha: ${date.toLocaleDateString()} ${date.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</p>${s.profileUsed?.userName?`<p class="text-xs text-gray-400">Perfil: ${s.profileUsed.userName}</p>`:''}<p class="text-xs text-gray-400">Bloques: ${s.log.length}</p>`;
+            const acts=document.createElement('div');acts.className='flex space-x-2 mt-2 sm:mt-0';
+            const vBtn=document.createElement('button');vBtn.className='btn btn-sm btn-outline';vBtn.innerHTML=`<svg class="icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>Ver`;vBtn.onclick=()=>handleViewSessionChart(s.sessionId,s.log);
+            const dBtn=document.createElement('button');dBtn.className='btn btn-sm btn-danger';dBtn.innerHTML=`<svg class="icon w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12.56 0c.342.052.682.107 1.022.166m0 0l-.346 9m4.788-9l-.346 9m0 0a2.25 2.25 0 002.244 2.077h3.164a2.25 2.25 0 002.244-2.077L19.25 5.79m-14.456 0a48.108 48.108 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>Elim.`;dBtn.onclick=()=>handleDeleteSession(s.sessionId);
+            acts.appendChild(vBtn);acts.appendChild(dBtn);div.appendChild(info);div.appendChild(acts);ui.sessionHistoryListContainer.appendChild(div);
+        });
+    }
+    async function openHistoryModal() { try { const sessions = await getAllSessionLogs(); renderSessionHistoryUI(sessions); showModal(ui.historyModal); } catch (e) { alert("Error al cargar historial: " + e); }}
+    async function handleViewSessionChart(sessionId, log) { if (log && log.length > 0) { closeModal(ui.historyModal); generateSessionChart(log); } else { try { const s = await getSessionLogById(sessionId); if (s && s.log) { closeModal(ui.historyModal); generateSessionChart(s.log); } else alert("No se pudieron cargar datos."); } catch (e) { alert("Error al cargar sesión: " + e); }}}
+    async function handleDeleteSession(sessionId) { if (confirm(`¿Eliminar sesión ${sessionId.slice(-6)}?`)) { try { await deleteSessionLogById(sessionId); alert("Sesión eliminada."); openHistoryModal(); } catch (e) { alert("Error eliminando sesión: " + e); }}}
+    ui.btnShowSessionChart.addEventListener('click', () => generateSessionChart(dailySessionLog));
+    ui.btnSaveSessionData.addEventListener('click', async () => {
+        if (dailySessionLog.length === 0) return alert("No hay datos de sesión activos para guardar.");
+        const sId = `session_${Date.now()}`, sToSave = {sessionId:sId, timestamp:new Date().toISOString(), profileUsed:{userName:appState.profileData.userName,userAge:appState.profileData.userAge,calibrationData:JSON.parse(JSON.stringify(appState.profileData.calibrationData))}, log:[...dailySessionLog]};
+        try { await saveSessionLog(sToSave); alert(`Datos de sesión (ID:${sId.slice(-6)}) guardados.`); closeModal(ui.sessionChartModal); } catch (e) { alert("Error guardando datos: " + e); }
+    });
+
+    function calculateMean(a){return a&&a.length>0?a.reduce((s,v)=>s+v,0)/a.length:0;}
+    function calculateStdDev(a,m){if(!a||a.length<2)return 0;const mV=m!==undefined?m:calculateMean(a);return Math.sqrt(a.reduce((s,v)=>s+Math.pow(v-mV,2),0)/a.length);}
+    function estimateRRIntervals(hV){if(!hV||hV.length===0)return[];return hV.map(h=>h>0?60000/h:0).filter(rr=>rr>0);}
+    function calculateMode(a){if(!a||a.length===0)return null;const f={};let mF=0,m=null;a.forEach(i=>{const rI=Math.round(i);f[rI]=(f[rI]||0)+1;if(f[rI]>mF){mF=f[rI];m=rI;}});return m;}
+    function calculateRMSSD(rI){if(!rI||rI.length<2)return null;let sSD=0;for(let i=0;i<rI.length-1;i++)sSD+=Math.pow(rI[i+1]-rI[i],2);return Math.sqrt(sSD/(rI.length-1));}
+    function getBaevskyParameters(rI){if(!rI||rI.length<2)return null;const Mo=calculateMode(rI);if(Mo===null)return null;const cMo=rI.filter(rr=>Math.round(rr)===Mo).length,AMo=(cMo/rI.length)*100,rrMin=Math.min(...rI),rrMax=Math.max(...rI),MxDMn=rrMax-rrMin;if(MxDMn===0)return{Mo,AMo,MxDMn,si_problematic:true};return{Mo,AMo,MxDMn};}
+    function calculateBaevskySI(p){if(!p||p.si_problematic||p.Mo===null||p.MxDMn===0)return null;const Mo_s=p.Mo/1000,MxDMn_s=p.MxDMn/1000;if(Mo_s===0||MxDMn_s===0)return null;return parseFloat((p.AMo/(2*Mo_s*MxDMn_s)).toFixed(2));}
+    function calculateIEE(cMH){const c=appState.profileData.calibrationData.phases,hR=c.absoluteRelaxation?.avg&&c.absoluteRelaxation.avg!=="N/A"?c.absoluteRelaxation.avg:null,hF=c.activeCalm?.avg&&c.activeCalm.avg!=="N/A"?c.activeCalm.avg:null,hS=c.aerobicExercise?.avg&&c.aerobicExercise.avg!=="N/A"?c.aerobicExercise.avg:null;if(hR===null||hF===null||hS===null)return null;const den=hS-hR;if(den===0)return null;return parseFloat(((cMH-hF)/den).toFixed(2));}
+    function classifyUserStateAdvanced(iee,si){if(iee===null&&si===null)return"Indeterminado";const SIL=150,SIH=500;if(si!==null&&si>SIH)return"Estresado (SI Alto)";if(si!==null&&si>SIL&&(iee===null||iee>0.2))return"Estresado (SI Moderado)";if(iee!==null){if(iee<-0.1)return"Relajado";if(iee>=-0.1&&iee<=0.15){if(si!==null&&si<SIL*0.75)return"Concentrado (IEE y SI)";return"Concentrado (IEE)";}if(iee>0.15)return"Estresado (IEE Alto)";}if(si!==null){if(si<SIL*0.5)return"Relajado (SI Bajo)";if(si<SIL)return"Concentrado (SI Normal-Bajo)";}return"Indeterminado";}
+    function addHrToBuffer(hr,ts){if(typeof hr!=='number'||hr<=30||hr>=220)return;hrBufferForBlock.push({hr,ts});}
+    function processActivityBlock(){const now=Date.now();if(hrBufferForBlock.length===0)return;const bST=hrBufferForBlock[0].ts;if(now-bST>=ANALYSIS_BLOCK_DURATION_S*1000){if(hrBufferForBlock.length>=MIN_HR_READINGS_FOR_BLOCK){const bTA=[...hrBufferForBlock],hVIB=bTA.map(i=>i.hr),hM=parseFloat(calculateMean(hVIB).toFixed(1)),sH=parseFloat(calculateStdDev(hVIB,hM).toFixed(2)),rRs=estimateRRIntervals(hVIB),eR=rRs.length>1?parseFloat(calculateRMSSD(rRs).toFixed(2)):null,bP=getBaevskyParameters(rRs),sB=bP?calculateBaevskySI(bP):null,iee=calculateIEE(hM),eD=classifyUserStateAdvanced(iee,sB);const bR={timestamp:new Date(bST).toISOString(),hrMedia:hM,sdhr:sH,eRMSSD:eR,iee,si_baevsky:sB,estado_detectado:eD,_rawHrCount:hVIB.length};dailySessionLog.push(bR);updateRealtimeStatusDisplay(eD,iee,sB);}else console.log(`Bloque de ${ANALYSIS_BLOCK_DURATION_S}s no analizado, lecturas insuficientes: ${hrBufferForBlock.length}`);hrBufferForBlock=[];}}
+    
+    function updateRealtimeStatusDisplay(estado, iee, si, tiempoEstimado = null) {
+        let statusTextContent = `Estado: ${estado}`;
+        const lowerCaseEstado = estado.toLowerCase();
+        if (tiempoEstimado) { statusTextContent += ` (Estimado en: ${tiempoEstimado}s)`; }
+        else if (lowerCaseEstado !== "analizando..." && lowerCaseEstado !== "esperando datos..." && lowerCaseEstado !== "seguimiento finalizado") {
+            if (iee !== null) statusTextContent += ` (IEE: ${iee})`; if (si !== null) statusTextContent += ` (SI: ${si})`;
+        }
+        ui.realtimeUserStatusText.textContent = statusTextContent;
+        const container = ui.realtimeUserStatusDisplayContainer;
+        let baseClasses = 'fixed bottom-[130px] right-5 p-2 px-4 rounded-lg shadow-md z-[99] text-sm transition-all duration-300';
+        let stateClasses = (lowerCaseEstado === "analizando..." || lowerCaseEstado === "esperando datos..." || lowerCaseEstado === "seguimiento finalizado") ? 'bg-gray-300 text-gray-800 border-4 border-gray-500'
+            : (estado.split(" ")[0] === "Relajado" ? 'bg-green-500 text-white border-4 border-green-700'
+            : (estado.split(" ")[0] === "Concentrado" ? 'bg-blue-500 text-white border-4 border-blue-700'
+            : (estado.split(" ")[0] === "Estresado" ? 'bg-red-500 text-white border-4 border-red-700'
+            : 'bg-gray-300 text-gray-800 border-4 border-gray-500')));
+        container.className = `${baseClasses} ${stateClasses}`;
+        if (analysisIntervalTimerId || lowerCaseEstado === "analizando..." || lowerCaseEstado === "esperando datos..." || lowerCaseEstado === "seguimiento finalizado") {
+            if (container.style.display === 'none') container.style.display = 'block';
+        }
+    }
+
+    function startRealtimeAnalysis() {
+        if (analysisIntervalTimerId) return;
+        if (!appState.isBleDeviceConnected) return alert("Pulsera no conectada.");
+        const calib = appState.profileData.calibrationData.phases;
+        if (!(calib.absoluteRelaxation?.avg && calib.activeCalm?.avg && calib.aerobicExercise?.avg && calib.absoluteRelaxation.avg!=="N/A"&&calib.activeCalm.avg!=="N/A"&&calib.aerobicExercise.avg!=="N/A")) return alert("Calibración completa requerida.");
+        dailySessionLog = []; ui.btnShowSessionChart.classList.add('hidden'); hrBufferForBlock = [];
+        updateRealtimeStatusDisplay("Analizando...", null, null, ANALYSIS_BLOCK_DURATION_S);
+        ui.realtimeUserStatusDisplayContainer.style.display = 'block';
+        analysisIntervalTimerId = setInterval(processActivityBlock, PROCESS_BLOCK_INTERVAL_MS);
+        updateControlButtonsState();
+    }
+
+    function stopRealtimeAnalysis() {
+        if (analysisIntervalTimerId) {
+            clearInterval(analysisIntervalTimerId); analysisIntervalTimerId = null;
+            let finalStateProcessed = false;
+            if (hrBufferForBlock.length >= MIN_HR_READINGS_FOR_BLOCK / 4) {
+                const bTA = [...hrBufferForBlock], bST = bTA.length > 0 ? new Date(bTA[0].ts).toISOString() : new Date().toISOString(), hVIB = bTA.map(i => i.hr);
+                if (hVIB.length > 0) {
+                    const hM=parseFloat(calculateMean(hVIB).toFixed(1)),sH=parseFloat(calculateStdDev(hVIB,hM).toFixed(2)),rRs=estimateRRIntervals(hVIB),eR=rRs.length>1?parseFloat(calculateRMSSD(rRs).toFixed(2)):null,bP=getBaevskyParameters(rRs),sB=bP?calculateBaevskySI(bP):null,iee=calculateIEE(hM),eD=classifyUserStateAdvanced(iee,sB);
+                    dailySessionLog.push({timestamp:bST,hrMedia:hM,sdhr:sH,eRMSSD:eR,iee,si_baevsky:sB,estado_detectado:eD,_rawHrCount:hVIB.length,_isPartial:true});
+                    updateRealtimeStatusDisplay(eD,iee,sB); finalStateProcessed=true;
+                }
+            }
+            if (!finalStateProcessed) {
+                if (dailySessionLog.length > 0) { const lLE = dailySessionLog[dailySessionLog.length - 1]; updateRealtimeStatusDisplay(lLE.estado_detectado, lLE.iee, lLE.si_baevsky); }
+                else { updateRealtimeStatusDisplay("Seguimiento finalizado", null, null); }
+            }
+            hrBufferForBlock = []; updateControlButtonsState();
+            if (dailySessionLog.length > 0) console.log("Resumen sesión:", dailySessionLog);
+        }
+    }
+    ui.btnStartStopRealtimeAnalysis.addEventListener('click', () => analysisIntervalTimerId ? stopRealtimeAnalysis() : startRealtimeAnalysis());
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        try { await initDB(); await loadProfileFromDB(); } catch (e) { console.error("Error crítico al iniciar:", e); alert("Error crítico. Revisa consola."); }
+        ui.btnShowSessionChart.classList.add('hidden');
+        if (ui.btnShowHistory) ui.btnShowHistory.addEventListener('click', openHistoryModal);
+        if (ui.historyModalClose) ui.historyModalClose.addEventListener('click', () => closeModal(ui.historyModal));
+        if (ui.btnCloseHistoryModal) ui.btnCloseHistoryModal.addEventListener('click', () => closeModal(ui.historyModal));
+        window.addEventListener('beforeunload', () => { if (analysisIntervalTimerId) stopRealtimeAnalysis(); });
+    });
+</script>
+</body>
+</html>
