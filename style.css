@@ -45,3 +45,16 @@ body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
 .phase-button.active { border-color: #3b82f6; background-color: #eff6ff; box-shadow: 0 0 0 2px #bfdbfe;}
 #realtimeUserStatusDisplayContainer { position: fixed; bottom: 130px; right: 20px; padding: 0.5rem 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 99; font-size: 0.875rem; display: none; transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
 .section-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; padding-bottom: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e5e7eb; }
+
+/* Clase para accesibilidad: Oculta visualmente pero es leída por lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
