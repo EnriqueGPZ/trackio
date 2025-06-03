@@ -1,1 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- SEO: Título optimizado con palabras clave principales -->
+    <title>Trakio: App Gratuita Estrés y Concentración en el Trabajo | trackio.es</title>
+
+    <!-- SEO: Meta Descripción con palabras clave y llamada a la acción implícita -->
+    <meta name="description" content="Trakio: app gratuita para Chrome que monitoriza tu estrés, concentración y fatiga en el trabajo. Analiza tu frecuencia cardíaca para mejorar productividad y bienestar laboral.">
+
+    <!-- SEO: Palabras clave -->
+    <meta name="keywords" content="trakio, app estrés laboral, app concentración oficina, monitorizar estrés trabajo, frecuencia cardíaca productividad, bienestar laboral app chrome, app hrv trabajadores, control enfoque oficina, rendimiento cognitivo trabajo, medir concentración trabajo, app estrés navegador, mejorar enfoque mental oficina, análisis frecuencia cardíaca productividad, herramientas bienestar empresas">
+
+    <!-- SEO: Open Graph / Facebook -->
+    <meta property="og:title" content="Trakio: Mide tu Estrés y Concentración en el Trabajo">
+    <meta property="og:description" content="Trakio es una app gratuita para Chrome que te ayuda a monitorizar tu estrés y concentración, mejorando tu productividad y bienestar laboral.">
+    <meta property="og:image" content="https://trackio.es/logo.png"> <!-- APUNTA A TU LOGO.PNG EN RAÍZ -->
+    <meta property="og:url" content="https://trackio.es">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Trakio">
+
+    <!-- SEO: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"> <!-- Puedes cambiar a "summary" si tu logo no es ideal para imagen grande -->
+    <meta name="twitter:title" content="Trakio: App Gratuita para Estrés y Concentración Laboral">
+    <meta name="twitter:description" content="Monitoriza tu estrés y concentración en el trabajo con Trakio, la app gratuita para Chrome. Mejora tu productividad y bienestar.">
+    <meta name="twitter:image" content="https://trackio.es/logo.png"> <!-- APUNTA A TU LOGO.PNG EN RAÍZ -->
+    <meta name="twitter:site" content="@TuUsuarioTwitter"> <!-- Opcional: REEMPLAZAR -->
+
+    <!-- SEO: Favicon (Comentado hasta que tengas el archivo) -->
+    <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
+    <!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://trackio.es">
+
+    <!-- Tailwind CSS (Considera compilar y purgar para producción y alojarlo tú mismo) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js (Considera instalar vía npm y empaquetar si usas un bundler) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Enlace a tu archivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SEO: Schema.org para WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Trakio",
+      "identifier": "https://trackio.es",
+      "url": "https://trackio.es",
+      "description": "Trakio es una aplicación web gratuita para Google Chrome que monitoriza en tiempo real tu nivel de estrés, concentración y fatiga mental durante el trabajo. Analiza tu frecuencia cardíaca para ayudarte a mantener el enfoque, reducir el agotamiento y mejorar tu productividad diaria. Ideal para trabajadores de oficina y empresas que apuestan por el bienestar laboral.",
+      "applicationCategory": ["ProductivityApplication", "HealthApplication"],
+      "applicationSubCategory": "Workplace Wellness",
+      "operatingSystem": "Google Chrome Browser",
+      "browserRequirements": "Requires Google Chrome with Bluetooth support.",
+      "softwareVersion": "1.0.0", // REEMPLAZAR o eliminar
+      "datePublished": "YYYY-MM-DD", // REEMPLAZAR o eliminar
+      "dateModified": "YYYY-MM-DD", // REEMPLAZAR o eliminar
+      
+      "keywords": [
+        "trakio",
+        "app estrés laboral gratuita",
+        "app concentración oficina",
+        "monitorizar estrés en el trabajo",
+        "frecuencia cardíaca productividad",
+        "bienestar laboral app chrome",
+        "app HRV para trabajadores",
+        "control del enfoque en oficina",
+        "rendimiento cognitivo en el trabajo",
+        "cómo medir mi concentración en el trabajo",
+        "app que mide el estrés desde el navegador",
+        "mejorar el enfoque mental en oficina",
+        "análisis de frecuencia cardíaca para productividad",
+        "herramientas de bienestar para empresas"
+      ],
+      
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://trackio.es/logo.png", // APUNTA A TU LOGO.PNG EN RAÍZ
+        "height": "60", // AJUSTA SI ES NECESARIO
+        "width": "200"  // AJUSTA SI ES NECESARIO
+      },
+      
+      "offers": { 
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR" 
+      },
+      
+      "creator": { 
+        "@type": "Organization", 
+        "name": "NombreDeTuEmpresaOPersona", // REEMPLAZAR
+        "url": "https://trackio.es" // REEMPLAZAR con URL de empresa/perfil
+      },
+      
+      "publisher": { 
+        "@type": "Organization",
+        "name": "NombreDeTuEmpresaOPersona", // REEMPLAZAR
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://trackio.es/logo.png" // APUNTA A TU LOGO.PNG EN RAÍZ
+        }
+      },
+
+      "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https://trackio.es"
+      },
+
+      "potentialAction": [ 
+        {
+          "@type": "ControlAction",
+          "name": "Iniciar Trakio",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://trackio.es",
+            "actionPlatform": [
+              "http://schema.org/DesktopWebPlatform",
+              "http://schema.org/MobileWebPlatform"
+            ]
+          }
+        }
+      ],
+
+      "featureList": [ 
+        "Monitorización en tiempo real del estrés laboral",
+        "Medición de niveles de concentración",
+        "Análisis de fatiga mental",
+        "Integración con pulseras de frecuencia cardíaca (Bluetooth Low Energy)",
+        "Informes de productividad",
+        "Alertas de bienestar personalizadas",
+        "Historial de sesiones"
+      ]
+    }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 text-gray-800">
+
+    <div class="w-full max-w-lg">
+        <header class="text-center mb-10">
+            <div class="flex justify-center mb-2"> 
+                <img src="logo.png" alt="Trakio Logo - App para medir estrés y concentración" class="h-16 w-auto">
+            </div>
+            <h1 class="text-xl font-medium text-gray-700 mt-2 mb-4 px-2">Mejora tu productividad con Trakio: la app gratuita para medir tu concentración y estrés desde el navegador.</h1>
+            <p class="text-gray-600">Bienvenido/a. Configura tu perfil para comenzar a monitorizar tu bienestar laboral y optimizar tu rendimiento.</p>
+        </header>
+
+        <div class="card">
+            <h2 class="section-title">1. Configuración Inicial del Perfil</h2>
+            <form id="userProfileForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div><label for="userName" class="label-text">Nombre</label><input type="text" id="userName" name="userName" class="input-field" placeholder="Tu nombre" required aria-label="Nombre del usuario"></div>
+                    <div><label for="userAge" class="label-text">Edad</label><input type="number" id="userAge" name="userAge" class="input-field" placeholder="Ej: 30" min="1" max="120" aria-label="Edad del usuario"></div>
+                    <div><label for="userWeight" class="label-text">Peso (kg)</label><input type="number" id="userWeight" name="userWeight" class="input-field" placeholder="Ej: 70" min="1" step="0.1" aria-label="Peso del usuario en kilogramos"></div>
+                    <div><label for="userHeight" class="label-text">Altura (cm)</label><input type="number" id="userHeight" name="userHeight" class="input-field" placeholder="Ej: 175" min="50" max="250" step="0.1" aria-label="Altura del usuario en centímetros"></div>
+                    <div><label for="userGender" class="label-text">Género</label><select id="userGender" name="userGender" class="input-field" aria-label="Género del usuario"><option value="">Seleccionar...</option><option value="masculino">Masculino</option><option value="femenino">Femenino</option><option value="otro">Otro</option><option value="prefiero_no_decir">Prefiero no decir</option></select></div>
+                </div>
+                <button type="submit" id="btnSaveProfile" class="btn btn-success w-full mb-6">Guardar Perfil</button>
+            </form>
+            <div class="space-y-4">
+                <button type="button" id="btnOpenConnectBleModal" class="btn btn-primary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Conectar Pulsera Bluetooth</button>
+                <p id="bleGlobalStatus" class="text-sm text-center text-gray-500">Pulsera: No conectada</p>
+                <button type="button" id="btnStartCalibration" class="btn btn-secondary w-full" disabled><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Iniciar/Modificar Calibración</button>
+                <div id="calibrationStatusArea" class="text-center"><p id="lastCalibratedText" class="text-sm text-gray-600">Calibración: No realizada aún.</p></div>
+                <button type="button" id="btnShowHelp" class="btn btn-outline w-full mt-2"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>Ayuda y Leyenda</svg></button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">2. Seguimiento de Estado en Tiempo Real</h2>
+            <p id="realtimeAnalysisPrerequisites" class="text-sm text-center text-amber-700 bg-amber-50 p-3 rounded-md mb-4 hidden">Para iniciar el seguimiento: guarda tu perfil, conecta la pulsera y completa la calibración (manual o estimada) de "Reposo / Relajado", "Calma Activa" y "Estrés/Agitación".</p>
+            <button type="button" id="btnStartStopRealtimeAnalysis" class="btn btn-secondary w-full"><svg class="icon" id="realtimeAnalysisIconPlay" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 0 1 0 1.971l-11.54 6.347a1.125 1.125 0 0 1-1.667-.985V5.653Z" /></svg><svg class="icon hidden" id="realtimeAnalysisIconStop" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM10 9.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Zm0 4.5a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg><span id="btnStartStopRealtimeAnalysisText">Iniciar Seguimiento de Estado</span></button>
+            <p id="realtimeAnalysisStatus" class="text-sm text-center text-gray-500 mt-2">Seguimiento: Detenido</p>
+            <button type="button" id="btnShowSessionChart" class="btn btn-outline w-full mt-4 hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h12A2.25 2.25 0 0020.25 14.25V3M3.75 21h16.5M16.5 3.75h.008v.008H16.5V3.75z" /></svg>Ver Resumen de la Sesión Actual</button>
+            <button type="button" id="btnShowHistory" class="btn btn-info w-full mt-2"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>Ver Historial de Sesiones</button>
+        </div>
+    </div>
+
+    <!-- Modales -->
+    <div id="helpModal" class="modal" role="dialog" aria-labelledby="helpModalTitle" aria-modal="true">
+        <div class="modal-content max-w-xl">
+            <span id="helpModalClose" class="modal-close-btn" role="button" tabindex="0" aria-label="Cerrar ventana de ayuda">×</span>
+            <h3 id="helpModalTitle" class="text-xl font-semibold mb-4 text-blue-600">Acerca de la Calibración y Leyenda de Trakio</h3>
+            <div class="space-y-3 text-gray-700 text-sm">
+                <p>La calibración de frecuencia cardíaca es un paso crucial para que <strong class="font-semibold">Trakio</strong> pueda entender tus patrones de pulso únicos y así ayudarte a <strong class="font-semibold">medir tu concentración en el trabajo</strong> y <strong class="font-semibold">monitorizar el estrés</strong>. Tienes dos opciones:</p>
+                <h4 class="font-semibold mt-3 text-base">1. Calibración Manual (Recomendado):</h4>
+                <p>Mides tu pulso con tu dispositivo de medición cardíaca (compatible con Bluetooth Low Energy - BLE), comúnmente una pulsera, en tres situaciones distintas:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong>Reposo / Relajado (3 min):</strong> Medir tu pulso en total calma, tumbado/a.</li>
+                    <li><strong>En Calma Activa (Concentración Cognitiva) (5 min):</strong> Medir tu pulso mientras realizas una tarea tranquila que requiera tu concentración.</li>
+                    <li><strong>Estrés o Agitación (Ejercicio Ligero) (1 min):</strong> Medir tu pulso con una actividad física ligera.</li>
+                </ul>
+                <p>Se registrarán tu FC media, mínima, máxima y el rango para cada fase para un <strong class="font-semibold">análisis de frecuencia cardíaca para productividad</strong> más preciso.</p>
+                <h4 class="font-semibold mt-3 text-base">2. Usar Valores Estimados por Edad (Rápido):</h4>
+                <p>Usa valores promedio de FC basados en tu edad. Menos precisos, pero útiles si no tienes un dispositivo BLE o tiempo para una calibración completa.</p>
+                <p class="mt-2 text-xs text-gray-500">Es importante que tu edad esté guardada en tu perfil.</p>
+            </div>
+            <hr class="my-6 border-gray-300">
+            <h3 class="text-xl font-semibold mb-4 text-blue-600">🪧 Leyenda: ¿Qué significan estos valores?</h3>
+            <div class="space-y-4 text-gray-700 text-sm">
+                <h4 class="font-semibold mt-3 text-base">🔹 ¿Cómo se calculan los valores?</h4>
+                <p>La app analiza tu frecuencia cardíaca (FC) y variabilidad de la frecuencia cardíaca (HRV) usando dos fórmulas principales para <strong class="font-semibold">controlar el enfoque en oficina</strong> y el estrés:</p>
+                <div class="ml-4 space-y-2"><p><strong>1. IEE (Índice Estimado Emocional):</strong> Compara tu FC actual con tus referencias de calibración.<br><span class="italic block my-1 text-center text-xs bg-gray-100 p-1 rounded">IEE = (FC<sub>actual</sub> - FC<sub>concentrado</sub>) / (FC<sub>estrés</sub> - FC<sub>reposo</sub>)</span></p></div>
+                <div class="ml-4 space-y-2 mt-3"><p><strong>2. SI (Índice de Estrés de Baevsky):</strong> Analiza la variabilidad entre tus latidos (HRV), un indicador clave del <strong class="font-semibold">rendimiento cognitivo en el trabajo</strong>.</p></div>
+                <h4 class="font-semibold mt-5 text-base">🔹 ¿Qué significan los resultados?</h4>
+                <p>Rangos orientativos (tu respuesta individual puede variar):</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><p class="font-medium">IEE</p><ul class="list-disc list-inside ml-4 text-xs space-y-1"><li>Valores bajos (ej. < 0) indican calma/reposo.</li><li>Valores crecientes (ej. > 0.15) sugieren activación/estrés.</li></ul></div>
+                    <div><p class="font-medium">SI (Baevsky)</p><ul class="list-disc list-inside ml-4 text-xs space-y-1"><li>< 150: Calma/recuperación. Muy bajos (<50) pueden ser somnolencia.</li><li>150–500: Activación normal, concentración, estrés leve/moderado.</li><li>> 500: Estrés alto, tensión, fatiga.</li></ul></div>
+                </div>
+                <h4 class="font-semibold mt-5 text-base">🔹 Resumen del estado (interpretación de la app)</h4>
+                <div class="overflow-x-auto mt-2"><table class="min-w-full text-xs border border-gray-300"><caption class="sr-only">Tabla de interpretación de estados de Trakio</caption><thead><tr><th scope="col" class="p-2 border-b text-left">Estado</th><th scope="col" class="p-2 border-b text-left">IEE Típico</th><th scope="col" class="p-2 border-b text-left">SI Típico</th><th scope="col" class="p-2 border-b text-left">Significado</th></tr></thead><tbody>
+                <tr><td class="p-2 border-b">Relajado</td><td class="p-2 border-b">< -0.1</td><td class="p-2 border-b">< ~100-150</td><td class="p-2 border-b">Tranquilo, reposo.</td></tr>
+                <tr><td class="p-2 border-b">Concentrado</td><td class="p-2 border-b">-0.1 a 0.15</td><td class="p-2 border-b">< ~150</td><td class="p-2 border-b">Enfocado, calma activa. Ideal para <strong class="font-semibold">mejorar el enfoque mental en oficina</strong>.</td></tr>
+                <tr><td class="p-2 border-b">Estresado</td><td class="p-2 border-b">> 0.15 o SI > 150-200</td><td class="p-2 border-b">> ~150-200</td><td class="p-2 border-b">Estrés, tensión, fatiga.</td></tr>
+                <tr><td class="p-2 border-b">Indeterminado</td><td class="p-2 border-b">N/A</td><td class="p-2 border-b">N/A</td><td class="p-2 border-b">Datos insuficientes.</td></tr>
+                </tbody></table></div>
+                <p class="mt-4 text-xs text-gray-500">💡 Calibra para obtener resultados más precisos para ti. Trakio es una de las <strong class="font-semibold">herramientas de bienestar para empresas</strong> que puedes usar individualmente.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bleConnectModal" class="modal" role="dialog" aria-labelledby="bleModalTitle" aria-modal="true"><div class="modal-content max-w-md"><span id="bleConnectModalClose" class="modal-close-btn" role="button" tabindex="0" aria-label="Cerrar ventana de conexión Bluetooth">×</span><h3 id="bleModalTitle" class="text-xl font-semibold mb-4 text-blue-600">Conectar Dispositivo BLE</h3><div id="bleModalContent"><p class="mb-4 text-gray-700">Asegúrate de que tu dispositivo de medición cardíaca (pulsera, banda pectoral, etc.) con Bluetooth Low Energy (BLE) esté encendido y cerca.</p><button id="btnScanBleDevice" class="btn btn-primary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>Buscar Dispositivos</button><div id="bleScanStatus" class="mt-4 text-center" aria-live="polite"></div><p id="bleDeviceInfo" class="mt-2 text-sm text-center text-green-600" aria-live="polite"></p><p id="bleError" class="mt-2 text-sm text-center text-red-600" aria-live="polite"></p><p id="currentPulseInModal" class="text-2xl font-bold text-center text-blue-500 mt-4">-- BPM</p></div></div></div>
+    
+    <div id="calibrationModal" class="modal" role="dialog" aria-labelledby="calibrationModalTitle" aria-modal="true"><div class="modal-content max-w-xl"><span id="calibrationModalClose" class="modal-close-btn" role="button" tabindex="0" aria-label="Cerrar ventana de calibración">×</span><h3 id="calibrationModalTitle" class="text-2xl font-semibold mb-6 text-blue-600 text-center">Calibración de Pulso</h3><div id="calibrationMethodSelectionView"><p class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-gray-700">Puedes calibrar tus valores de pulso de referencia manualmente usando un dispositivo de medición cardíaca Bluetooth Low Energy (BLE) (recomendado para mayor precisión) o usar valores estimados basados en tu edad si tienes prisa o no dispones de dispositivo BLE.</p><h4 class="text-lg font-medium mb-3 text-gray-800">Elige un método:</h4><button id="btnGoToManualCalibration" class="btn btn-primary w-full mb-3"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>Calibrar Manualmente con Dispositivo BLE (Recomendado)</button><button id="btnGoToEstimatedCalibration" class="btn btn-secondary w-full"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM10.5 16.5h.008v.008h-.008V16.5zm0-3h.008v.008h-.008V13.5z" /></svg>Usar Valores Estimados por Edad (Rápido)</button><p id="ageWarningForEstimation" class="text-sm text-red-600 mt-3 text-center hidden" aria-live="assertive">Por favor, guarda tu edad en el perfil para usar esta opción.</p></div><div id="calibrationPhaseSelectionView" class="hidden"><div id="calibrationIntroText" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700"><p>Este módulo te permite registrar tus patrones de pulso en diferentes situaciones para personalizar las recomendaciones de la aplicación. Asegúrate de que tu dispositivo BLE esté conectado para la calibración manual.</p><p class="mt-2">Puedes realizar cada fase individualmente.</p></div><h4 class="text-lg font-medium mb-3 text-gray-800">Selecciona una fase para calibrar o re-calibrar manualmente:</h4><div id="calibrationPhaseButtonsContainer" class="space-y-3 mb-6"></div><p id="calibrationOverallStatus" class="text-sm text-center text-gray-600 mb-4" aria-live="polite"></p><button id="btnBackToMethodSelectionFromManual" class="btn btn-outline btn-sm w-full mt-2">Volver a Selección de Método</button></div><div id="calibrationEstimatedValuesView" class="hidden"><h4 class="text-lg font-medium mb-1 text-gray-800">Valores Estimados por Edad</h4><p class="text-sm text-gray-600 mb-4">Basado en tu edad (<span id="userAgeForEstimationDisplay"></span> años), estos son los rangos de frecuencia cardíaca promedio. Pulsa "Aplicar" para usarlos.</p><div id="estimatedValuesDisplayContainer" class="space-y-3 mb-6 p-4 bg-gray-50 rounded-lg"></div><div class="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-3"><button id="btnApplyEstimatedValues" class="btn btn-success w-full sm:w-auto px-8">Aplicar y Guardar Valores Estimados</button><button id="btnBackToMethodSelectionFromEstimated" class="btn btn-outline btn-sm w-full sm:w-auto">Volver a Selección de Método</button></div></div><div id="calibrationPhaseRunnerView" class="hidden"><div id="calibrationPhaseInstructions" class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700" aria-live="polite"></div><div class="flex items-center justify-around mb-6"><div class="text-center"><p class="text-sm text-gray-500">Tiempo Restante</p><p id="calibrationTimerDisplay" class="text-3xl font-bold text-blue-500">--:--</p></div><div class="text-center"><p class="text-sm text-gray-500">Pulso Actual</p><p id="calibrationLivePulse" class="text-3xl font-bold text-red-500">-- BPM</p></div></div><div class="flex justify-center items-center space-x-3 mb-4"><button id="btnRunSelectedPhase" class="btn btn-primary px-8">Iniciar Medición</button><button id="btnCancelCurrentPhase" class="btn btn-outline btn-sm">Volver a Selección de Fase</button></div></div><div id="calibrationResultsArea" class="mt-6 space-y-4" aria-live="polite"></div><div class="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-3"><button id="btnSaveCalibration" class="btn btn-success">Guardar Cambios de Calibración</button><button id="btnCloseCalibrationModal" class="btn btn-secondary">Cerrar</button></div></div></div>
+    
+    <div id="sessionChartModal" class="modal" role="dialog" aria-labelledby="sessionChartModalTitle" aria-modal="true"><div class="modal-content max-w-3xl"><span id="sessionChartModalClose" class="modal-close-btn" role="button" tabindex="0" aria-label="Cerrar resumen gráfico">×</span><h3 id="sessionChartModalTitle" class="text-xl font-semibold mb-4 text-blue-600">Resumen Gráfico de la Sesión</h3><div class="w-full h-96"><canvas id="sessionStateChart" role="img" aria-label="Gráfico de estado de la sesión"></canvas></div><div class="mt-6 flex justify-end space-x-3"><button id="btnSaveSessionData" class="btn btn-success">Guardar Datos de esta Sesión</button><button id="btnCloseChartModal" class="btn btn-secondary">Cerrar</button></div></div></div>
+    
+    <div id="historyModal" class="modal" role="dialog" aria-labelledby="historyModalTitle" aria-modal="true"><div class="modal-content max-w-2xl"><span id="historyModalClose" class="modal-close-btn" role="button" tabindex="0" aria-label="Cerrar historial de sesiones">×</span><h3 id="historyModalTitle" class="text-xl font-semibold mb-4 text-blue-600">Historial de Sesiones Guardadas</h3><div id="sessionHistoryListContainer" class="space-y-3 max-h-96 overflow-y-auto"><p id="noHistoryMessage" class="text-gray-500 text-center hidden">No hay sesiones guardadas en el historial.</p></div><div class="mt-6 flex justify-end"><button id="btnCloseHistoryModal" class="btn btn-secondary">Cerrar</button></div></div></div>
+
+    <!-- Widgets Flotantes -->
+    <div id="realtimePulseWidget" aria-live="polite" aria-atomic="true"><svg id="heartbeatSvg" viewBox="0 0 100 100" aria-hidden="true"><path id="heartbeatPath" d="M10 50 Q 20 10, 30 50 T 50 50 Q 60 10, 70 50 T 90 50" /></svg><div><span id="pulseValueDisplay" aria-label="Pulso actual en latidos por minuto">--</span><span id="pulseUnit">BPM</span></div></div>
+    <div id="realtimeUserStatusDisplayContainer" aria-live="assertive" aria-atomic="true"><span id="realtimeUserStatusText">Estado: Indeterminado</span></div>
+
+    <!-- Enlace a tu archivo JavaScript externo (con defer para mejor rendimiento) -->
+    <script src="script.js" defer></script>
+</body>
+</html>
