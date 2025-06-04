@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://trackio.es/</loc>
+    <lastmod>YYYY-MM-DD</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- 
+    Si tienes otras páginas importantes y estáticas que quieres que se indexen, 
+    añádelas aquí siguiendo el mismo formato. Por ejemplo, si creas una página de ayuda:
+  <url>
+    <loc>https://trackio.es/ayuda/</loc>
+    <lastmod>YYYY-MM-DD</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  -->
+</urlset>
