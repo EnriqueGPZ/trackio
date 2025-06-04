@@ -16,17 +16,17 @@
     <!-- SEO: Open Graph / Facebook -->
     <meta property="og:title" content="Trackio: Mide tu Estrés y Concentración en el Trabajo">
     <meta property="og:description" content="Trackio es una app gratuita para Chrome que te ayuda a monitorizar tu estrés y concentración, mejorando tu productividad y bienestar laboral.">
-    <meta property="og:image" content="https://trackio.es/logo.png"> <!-- APUNTA A TU LOGO.PNG EN RAÍZ -->
+    <meta property="og:image" content="https://trackio.es/logo.png"> 
     <meta property="og:url" content="https://trackio.es">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Trackio">
 
     <!-- SEO: Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image"> <!-- Puedes cambiar a "summary" si tu logo no es ideal para imagen grande -->
+    <meta name="twitter:card" content="summary_large_image"> 
     <meta name="twitter:title" content="Trackio: App Gratuita para Estrés y Concentración Laboral">
     <meta name="twitter:description" content="Monitoriza tu estrés y concentración en el trabajo con Trackio, la app gratuita para Chrome. Mejora tu productividad y bienestar.">
-    <meta name="twitter:image" content="https://trackio.es/logo.png"> <!-- APUNTA A TU LOGO.PNG EN RAÍZ -->
-    <meta name="twitter:site" content="@TuUsuarioTwitter"> <!-- Opcional: REEMPLAZAR -->
+    <meta name="twitter:image" content="https://trackio.es/logo.png"> 
+    <meta name="twitter:site" content="@TuUsuarioTwitter"> 
 
     <!-- SEO: Favicon (Comentado hasta que tengas el archivo) -->
     <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
@@ -35,11 +35,11 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://trackio.es">
 
-    <!-- Tailwind CSS (Considera compilar y purgar para producción y alojarlo tú mismo) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js (Considera instalar vía npm y empaquetar si usas un bundler) -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Enlace a tu archivo CSS externo -->
@@ -50,20 +50,20 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Trackio", // NOMBRE CAMBIADO
+      "name": "Trackio",
       "identifier": "https://trackio.es",
       "url": "https://trackio.es",
-      "description": "Trackio es una aplicación web gratuita para Google Chrome que monitoriza en tiempo real tu nivel de estrés, concentración y fatiga mental durante el trabajo. Analiza tu frecuencia cardíaca para ayudarte a mantener el enfoque, reducir el agotamiento y mejorar tu productividad diaria. Ideal para trabajadores de oficina y empresas que apuestan por el bienestar laboral.", // NOMBRE CAMBIADO
+      "description": "Trackio es una aplicación web gratuita para Google Chrome que monitoriza en tiempo real tu nivel de estrés, concentración y fatiga mental durante el trabajo. Analiza tu frecuencia cardíaca para ayudarte a mantener el enfoque, reducir el agotamiento y mejorar tu productividad diaria. Ideal para trabajadores de oficina y empresas que apuestan por el bienestar laboral.",
       "applicationCategory": ["ProductivityApplication", "HealthApplication"],
       "applicationSubCategory": "Workplace Wellness",
       "operatingSystem": "Google Chrome Browser",
       "browserRequirements": "Requires Google Chrome with Bluetooth support.",
-      "softwareVersion": "1.0.0", // REEMPLAZAR o eliminar
-      "datePublished": "YYYY-MM-DD", // REEMPLAZAR o eliminar
-      "dateModified": "YYYY-MM-DD", // REEMPLAZAR o eliminar
+      "softwareVersion": "1.0.0", 
+      "datePublished": "YYYY-MM-DD", 
+      "dateModified": "YYYY-MM-DD", 
       
       "keywords": [
-        "Trackio", // NOMBRE CAMBIADO
+        "Trackio", 
         "app estrés laboral gratuita",
         "app concentración oficina",
         "monitorizar estrés en el trabajo",
@@ -93,15 +93,15 @@
       },
       
       "creator": { 
-        "@type": "Organization", 
-        "name": "NombreDeTuEmpresaOPersona", // REEMPLAZAR
-        "url": "https://trackio.es" // REEMPLAZAR con URL de empresa/perfil
+        "@type": "Person",  // CAMBIADO A PERSON
+        "name": "Enrique Gil", // NOMBRE DEL CREADOR
+        "url": "https://trackio.es" // O URL personal si la tiene
       },
       
       "publisher": { 
-        "@type": "Organization",
-        "name": "NombreDeTuEmpresaOPersona", // REEMPLAZAR
-        "logo": {
+        "@type": "Person", // CAMBIADO A PERSON
+        "name": "Enrique Gil", // NOMBRE DEL CREADOR
+        "logo": { // El logo del publisher puede ser omitido si es una persona o usar el logo de la app
           "@type": "ImageObject",
           "url": "https://trackio.es/logo.png" 
         }
@@ -115,7 +115,7 @@
       "potentialAction": [ 
         {
           "@type": "ControlAction",
-          "name": "Iniciar Trackio", // NOMBRE CAMBIADO
+          "name": "Iniciar Trackio", 
           "target": {
             "@type": "EntryPoint",
             "urlTemplate": "https://trackio.es",
@@ -144,10 +144,10 @@
     <div class="w-full max-w-lg">
         <header class="text-center mb-10">
             <div class="flex justify-center mb-2"> 
-                <img src="logo.png" alt="Trackio Logo - App para medir estrés y concentración" class="h-16 w-auto"> <!-- NOMBRE CAMBIADO EN ALT -->
+                <img src="logo.png" alt="Trackio Logo - App para medir estrés y concentración" class="h-16 w-auto">
             </div>
-            <h1 class="text-xl font-medium text-gray-700 mt-2 mb-4 px-2">Mejora tu productividad con Trackio: la app gratuita para medir tu concentración y estrés desde el navegador.</h1> <!-- NOMBRE CAMBIADO -->
-            <p class="text-gray-600">Bienvenido/a. Configura tu perfil para comenzar a monitorizar tu bienestar laboral y optimizar tu rendimiento con Trackio.</p> <!-- NOMBRE CAMBIADO -->
+            <h1 class="text-xl font-medium text-gray-700 mt-2 mb-4 px-2">Mejora tu productividad con Trackio: la app gratuita para medir tu concentración y estrés desde el navegador.</h1>
+            <p class="text-gray-600">Bienvenido/a. Configura tu perfil para comenzar a monitorizar tu bienestar laboral y optimizar tu rendimiento con Trackio.</p>
         </header>
 
         <div class="card">
@@ -182,13 +182,11 @@
     </div>
 
     <!-- Modales -->
-        <!-- Modales -->
     <div id="helpModal" class="modal" role="dialog" aria-labelledby="helpModalTitle" aria-modal="true">
         <div class="modal-content max-w-xl">
             <span id="helpModalClose" class="modal-close-btn" role="button" tabindex="0" aria-label="Cerrar ventana de ayuda">×</span>
             <h3 id="helpModalTitle" class="text-xl font-semibold mb-4 text-blue-600">Acerca de la Calibración y Leyenda de Trackio</h3>
             <div class="space-y-3 text-gray-700 text-sm">
-                <!-- AVISO IMPORTANTE SOBRE EL NAVEGADOR -->
                 <div class="p-3 mb-4 bg-orange-100 border-l-4 border-orange-500 text-orange-700">
                     <p class="font-bold">Requisito del Navegador:</p>
                     <p>Trackio utiliza Web Bluetooth para conectarse a tu pulsera, una tecnología que actualmente tiene el mejor soporte en navegadores basados en Chromium como <strong class="font-semibold">Google Chrome</strong> y <strong class="font-semibold">Microsoft Edge</strong> en versiones de escritorio (Windows, macOS, Linux) y Android. Es posible que otras combinaciones de navegador/sistema operativo no funcionen correctamente.</p>
@@ -243,6 +241,12 @@
     <!-- Widgets Flotantes -->
     <div id="realtimePulseWidget" aria-live="polite" aria-atomic="true"><svg id="heartbeatSvg" viewBox="0 0 100 100" aria-hidden="true"><path id="heartbeatPath" d="M10 50 Q 20 10, 30 50 T 50 50 Q 60 10, 70 50 T 90 50" /></svg><div><span id="pulseValueDisplay" aria-label="Pulso actual en latidos por minuto">--</span><span id="pulseUnit">BPM</span></div></div>
     <div id="realtimeUserStatusDisplayContainer" aria-live="assertive" aria-atomic="true"><span id="realtimeUserStatusText">Estado: Indeterminado</span></div>
+
+    <!-- Pie de Página -->
+    <footer class="w-full max-w-lg text-center text-xs text-gray-500 mt-10 mb-6">
+        <p>Creado por Enrique Gil.</p>
+        <p>© <span id="currentYear"></span> Trackio. Todos los derechos reservados.</p>
+    </footer>
 
     <!-- Enlace a tu archivo JavaScript externo (con defer para mejor rendimiento) -->
     <script src="script.js" defer></script>
