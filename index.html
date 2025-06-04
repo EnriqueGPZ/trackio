@@ -4,51 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO: Título optimizado con palabras clave principales -->
     <title>Trackio: App Gratuita Estrés y Concentración en el Trabajo | trackio.es</title>
-
-    <!-- SEO: Meta Descripción con palabras clave y llamada a la acción implícita -->
     <meta name="description" content="Trackio: app gratuita para Chrome que monitoriza tu estrés, concentración y fatiga en el trabajo. Analiza tu frecuencia cardíaca para mejorar productividad y bienestar laboral.">
-
-    <!-- SEO: Directiva para Robots -->
     <meta name="robots" content="index, follow">
-    
-    <!-- SEO: Palabras clave -->
     <meta name="keywords" content="Trackio, app estrés laboral, app concentración oficina, monitorizar estrés trabajo, frecuencia cardíaca productividad, bienestar laboral app chrome, app hrv trabajadores, control enfoque oficina, rendimiento cognitivo trabajo, medir concentración trabajo, app estrés navegador, mejorar enfoque mental oficina, análisis frecuencia cardíaca productividad, herramientas bienestar empresas">
 
-    <!-- SEO: Open Graph / Facebook -->
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/icon/manifest.json">
+
+    <!-- Theme Color para la barra de estado del navegador -->
+    <meta name="theme-color" content="#3b82f6">
+
+    <!-- Favicons y Apple Touch Icon -->
+    <link rel="icon" href="/icon/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/icon/favicon-96x96.png">
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png"> -->
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png"> -->
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:title" content="Trackio: Mide tu Estrés y Concentración en el Trabajo">
     <meta property="og:description" content="Trackio es una app gratuita para Chrome que te ayuda a monitorizar tu estrés y concentración, mejorando tu productividad y bienestar laboral.">
-    <meta property="og:image" content="https://trackio.es/logo.png"> 
+    <meta property="og:image" content="https://trackio.es/icon/web-app-manifest-512x512.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
     <meta property="og:url" content="https://trackio.es">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Trackio">
 
-    <!-- SEO: Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image"> 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Trackio: App Gratuita para Estrés y Concentración Laboral">
     <meta name="twitter:description" content="Monitoriza tu estrés y concentración en el trabajo con Trackio, la app gratuita para Chrome. Mejora tu productividad y bienestar.">
-    <meta name="twitter:image" content="https://trackio.es/logo.png"> 
-    <meta name="twitter:site" content="@TuUsuarioTwitter"> 
+    <meta name="twitter:image" content="https://trackio.es/icon/web-app-manifest-512x512.png">
+    <meta name="twitter:site" content="@TuUsuarioTwitter"> <!-- REEMPLAZAR -->
 
-    <!-- SEO: Favicon (Comentado hasta que tengas el archivo) -->
-    <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon"> -->
-    <!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
-
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://trackio.es">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Enlace a tu archivo CSS externo -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- SEO: Schema.org para WebApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -61,84 +59,30 @@
       "applicationSubCategory": "Workplace Wellness",
       "operatingSystem": "Google Chrome Browser",
       "browserRequirements": "Requires Google Chrome with Bluetooth support.",
-      "softwareVersion": "1.0.0", 
-      "datePublished": "YYYY-MM-DD", 
-      "dateModified": "YYYY-MM-DD", 
-      
-      "keywords": [
-        "Trackio", 
-        "app estrés laboral gratuita",
-        "app concentración oficina",
-        "monitorizar estrés en el trabajo",
-        "frecuencia cardíaca productividad",
-        "bienestar laboral app chrome",
-        "app HRV para trabajadores",
-        "control del enfoque en oficina",
-        "rendimiento cognitivo en el trabajo",
-        "cómo medir mi concentración en el trabajo",
-        "app que mide el estrés desde el navegador",
-        "mejorar el enfoque mental en oficina",
-        "análisis de frecuencia cardíaca para productividad",
-        "herramientas de bienestar para empresas"
-      ],
-      
+      "softwareVersion": "1.0.0", /* REEMPLAZAR o eliminar */
+      "keywords": ["Trackio", "app estrés laboral gratuita", "app concentración oficina", "monitorizar estrés en el trabajo", "frecuencia cardíaca productividad", "bienestar laboral app chrome", "app HRV para trabajadores", "control del enfoque en oficina", "rendimiento cognitivo en el trabajo", "cómo medir mi concentración en el trabajo", "app que mide el estrés desde el navegador", "mejorar el enfoque mental en oficina", "análisis de frecuencia cardíaca para productividad", "herramientas de bienestar para empresas"],
       "image": {
         "@type": "ImageObject",
-        "url": "https://trackio.es/logo.png", 
-        "height": "60", 
-        "width": "200"  
+        "url": "https://trackio.es/icon/web-app-manifest-512x512.png",
+        "height": "512", 
+        "width": "512"  
       },
-      
-      "offers": { 
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR" 
-      },
-      
-      "creator": { 
-        "@type": "Person",  // CAMBIADO A PERSON
-        "name": "Enrique Gil", // NOMBRE DEL CREADOR
-        "url": "https://trackio.es" // O URL personal si la tiene
-      },
-      
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "creator": { "@type": "Person", "name": "Enrique Gil", "url": "https://trackio.es" },
       "publisher": { 
-        "@type": "Person", // CAMBIADO A PERSON
-        "name": "Enrique Gil", // NOMBRE DEL CREADOR
-        "logo": { // El logo del publisher puede ser omitido si es una persona o usar el logo de la app
-          "@type": "ImageObject",
-          "url": "https://trackio.es/logo.png" 
-        }
+        "@type": "Person", 
+        "name": "Enrique Gil", 
+        "logo": { "@type": "ImageObject", "url": "https://trackio.es/icon/web-app-manifest-192x192.png" }
       },
-
-      "mainEntityOfPage": {
-         "@type": "WebPage",
-         "@id": "https://trackio.es"
-      },
-
-      "potentialAction": [ 
-        {
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://trackio.es" },
+      "potentialAction": [ {
           "@type": "ControlAction",
           "name": "Iniciar Trackio", 
-          "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": "https://trackio.es",
-            "actionPlatform": [
-              "http://schema.org/DesktopWebPlatform",
-              "http://schema.org/MobileWebPlatform"
-            ]
+          "target": { "@type": "EntryPoint", "urlTemplate": "https://trackio.es", 
+            "actionPlatform": [ "http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform" ]
           }
-        }
-      ],
-
-      "featureList": [ 
-        "Monitorización en tiempo real del estrés laboral",
-        "Medición de niveles de concentración",
-        "Análisis de fatiga mental",
-        "Integración con pulseras de frecuencia cardíaca (Bluetooth Low Energy)",
-        "Informes de productividad",
-        "Alertas de bienestar personalizadas",
-        "Historial de sesiones"
-      ]
+      }],
+      "featureList": ["Monitorización en tiempo real del estrés laboral", "Medición de niveles de concentración", "Análisis de fatiga mental", "Integración con pulseras de frecuencia cardíaca (Bluetooth Low Energy)", "Informes de productividad", "Alertas de bienestar personalizadas", "Historial de sesiones"]
     }
     </script>
 </head>
@@ -146,10 +90,10 @@
 
     <div class="w-full max-w-lg">
         <header class="text-center mb-10">
-            <div class="flex justify-center mb-8"> 
-                <img src="logo.png" alt="Trackio Logo - App para medir estrés y concentración" class="h-16 w-auto">
+            <div class="flex justify-center mb-8"> <!-- Margen ajustado como en el ejemplo anterior -->
+                <img src="logo.png" alt="Trackio Logo - App para medir estrés y concentración" class="h-16 w-auto"> <!-- ASUME logo.png en la raíz, ajusta si también está en /icon/ -->
             </div>
-            <h1 class="text-xl font-medium text-gray-700 mt-2 mb-8 px-2">Mejora tu productividad con Trackio: la app gratuita para medir tu concentración y estrés desde el navegador.</h1>
+            <h1 class="text-xl font-medium text-gray-700 mt-2 mb-4 px-2">Mejora tu productividad con Trackio: la app gratuita para medir tu concentración y estrés desde el navegador.</h1>
             <p class="text-gray-600">Bienvenido/a. Configura tu perfil para comenzar a monitorizar tu bienestar laboral y optimizar tu rendimiento con Trackio.</p>
         </header>
 
@@ -253,7 +197,6 @@
 
      <!-- Elemento de Audio para la Alerta Sonora -->
     <audio id="stressAlertSound" preload="auto" style="display:none;">
-        <!-- RUTA ACTUALIZADA AL ARCHIVO DE AUDIO EN LA RAÍZ -->
         <source src="beep-329314.mp3" type="audio/mpeg">
         Tu navegador no soporta el elemento de audio.
     </audio>
