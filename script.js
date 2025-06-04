@@ -1,6 +1,6 @@
 // NOMBRE DE LA APP: Trackio
-const DB_NAME = 'TrackioDB_Direct'; // CAMBIADO para consistencia con "Trackio" (VER NOTA ARRIBA)
-const DB_VERSION = 2; // Si cambias DB_NAME, la versión puede seguir siendo la misma o resetearse
+const DB_NAME = 'TrackioDB_Direct'; // O 'TrakioDB_Direct' si no quieres perder datos existentes
+const DB_VERSION = 2;
 const PROFILE_STORE_NAME = 'userProfileStore';
 const SESSION_LOG_STORE_NAME = 'sessionLogsStore';
 let db;
@@ -61,6 +61,23 @@ const ui = {
     sessionHistoryListContainer: document.getElementById('sessionHistoryListContainer'), noHistoryMessage: document.getElementById('noHistoryMessage'),
     btnCloseHistoryModal: document.getElementById('btnCloseHistoryModal'),
 };
+
+// Referencia al elemento de audio para la alerta de estrés
+const stressAlertAudio = document.getElementById('stressAlertSound');
+let lastPlayedStressSoundTime = 0; // Para evitar que suene demasiado seguido
+
+function playStressAlertSound() {
+    const now = Date.now();
+    // Solo reproduce si han pasado al menos 5 segundos desde la última vez,
+    // o si no hay un tiempo registrado (la primera vez).
+    if (stressAlertAudio && (now - lastPlayedStressSoundTime > 5000 || lastPlayedStressSoundTime === 0)) {
+        stressAlertAudio.currentTime = 0; 
+        stressAlertAudio.play().catch(error => {
+            console.warn("No se pudo reproducir el sonido de alerta de estrés automáticamente:", error);
+        });
+        lastPlayedStressSoundTime = now;
+    }
+}
 
 function initDB() { return new Promise((resolve, reject) => {
     if (db) return resolve(db);
@@ -183,7 +200,9 @@ ui.userProfileForm.addEventListener('submit', async (event) => {
 
 const HEART_RATE_SERVICE_UUID = 'heart_rate', HEART_RATE_MEASUREMENT_CHARACTERISTIC_UUID = 'heart_rate_measurement';
 ui.btnOpenConnectBleModal.addEventListener('click', () => {
-    if (!navigator.bluetooth) return alert("Web Bluetooth no es compatible con este navegador.");
+    if (!navigator.bluetooth) {
+        return alert("Web Bluetooth no es compatible con este navegador. Para la conexión con la pulsera, por favor, utiliza Google Chrome o Microsoft Edge en escritorio o Android.");
+    }
     showModal(ui.bleConnectModal); 
     ui.bleConnectModal.querySelector('h3').textContent = 'Conectar Dispositivo BLE';
     ui.bleConnectModal.querySelector('#bleModalContent p:first-child').textContent = 'Asegúrate de que tu dispositivo de medición cardíaca (pulsera, banda pectoral, etc.) con Bluetooth Low Energy (BLE) esté encendido y cerca.';
@@ -421,21 +440,41 @@ function processActivityBlock(){const now=Date.now();if(hrBufferForBlock.length=
 function updateRealtimeStatusDisplay(estado, iee, si, tiempoEstimado = null) {
     let statusTextContent = `Estado: ${estado}`;
     const lowerCaseEstado = estado.toLowerCase();
-    if (tiempoEstimado) { statusTextContent += ` (Estimado en: ${tiempoEstimado}s)`; }
-    else if (lowerCaseEstado !== "analizando..." && lowerCaseEstado !== "esperando datos..." && lowerCaseEstado !== "seguimiento finalizado") {
-        if (iee !== null) statusTextContent += ` (IEE: ${iee})`; if (si !== null) statusTextContent += ` (SI: ${si})`;
+    let playSound = false; 
+
+    if (tiempoEstimado) {
+        statusTextContent += ` (Estimado en: ${tiempoEstimado}s)`;
+    } else if (lowerCaseEstado !== "analizando..." && lowerCaseEstado !== "esperando datos..." && lowerCaseEstado !== "seguimiento finalizado") {
+        if (iee !== null) statusTextContent += ` (IEE: ${iee})`;
+        if (si !== null) statusTextContent += ` (SI: ${si})`;
     }
+
     ui.realtimeUserStatusText.textContent = statusTextContent;
     const container = ui.realtimeUserStatusDisplayContainer;
     let baseClasses = 'fixed bottom-[130px] right-5 p-2 px-4 rounded-lg shadow-md z-[99] text-sm transition-all duration-300';
-    let stateClasses = (lowerCaseEstado === "analizando..." || lowerCaseEstado === "esperando datos..." || lowerCaseEstado === "seguimiento finalizado") ? 'bg-gray-300 text-gray-800 border-4 border-gray-500'
-        : (estado.split(" ")[0] === "Relajado" ? 'bg-green-500 text-white border-4 border-green-700'
-        : (estado.split(" ")[0] === "Concentrado" ? 'bg-blue-500 text-white border-4 border-blue-700'
-        : (estado.split(" ")[0] === "Estresado" ? 'bg-red-500 text-white border-4 border-red-700'
-        : 'bg-gray-300 text-gray-800 border-4 border-gray-500')));
+    let stateClasses = '';
+    
+    if (lowerCaseEstado === "analizando..." || lowerCaseEstado === "esperando datos..." || lowerCaseEstado === "seguimiento finalizado") {
+        stateClasses = 'bg-gray-300 text-gray-800 border-4 border-gray-500';
+    } else if (estado.toLowerCase().includes("relajado")) {
+        stateClasses = 'bg-green-500 text-white border-4 border-green-700';
+    } else if (estado.toLowerCase().includes("concentrado")) {
+        stateClasses = 'bg-blue-500 text-white border-4 border-blue-700';
+    } else if (estado.toLowerCase().includes("estresado")) {
+        stateClasses = 'bg-red-500 text-white border-4 border-red-700';
+        playSound = true; 
+    } else { 
+        stateClasses = 'bg-gray-300 text-gray-800 border-4 border-gray-500';
+    }
+    
     container.className = `${baseClasses} ${stateClasses}`;
+
     if (analysisIntervalTimerId || lowerCaseEstado === "analizando..." || lowerCaseEstado === "esperando datos..." || lowerCaseEstado === "seguimiento finalizado") {
         if (container.style.display === 'none') container.style.display = 'block';
+    }
+
+    if (playSound) {
+        playStressAlertSound();
     }
 }
 
@@ -455,7 +494,7 @@ function stopRealtimeAnalysis() {
     if (analysisIntervalTimerId) {
         clearInterval(analysisIntervalTimerId); analysisIntervalTimerId = null;
         let finalStateProcessed = false;
-        if (hrBufferForBlock.length >= MIN_HR_READINGS_FOR_BLOCK / 4) { // Procesar bloque parcial si hay suficientes datos (ej: 1/4 de lo normal)
+        if (hrBufferForBlock.length >= MIN_HR_READINGS_FOR_BLOCK / 4) { 
             const bTA = [...hrBufferForBlock], bST = bTA.length > 0 ? new Date(bTA[0].ts).toISOString() : new Date().toISOString(), hVIB = bTA.map(i => i.hr);
             if (hVIB.length > 0) {
                 const hM=parseFloat(calculateMean(hVIB).toFixed(1)),sH=parseFloat(calculateStdDev(hVIB,hM).toFixed(2)),rRs=estimateRRIntervals(hVIB),eR=rRs.length>1?parseFloat(calculateRMSSD(rRs).toFixed(2)):null,bP=getBaevskyParameters(rRs),sB=bP?calculateBaevskySI(bP):null,iee=calculateIEE(hM),eD=classifyUserStateAdvanced(iee,sB);
@@ -468,13 +507,13 @@ function stopRealtimeAnalysis() {
             else { updateRealtimeStatusDisplay("Seguimiento finalizado", null, null); }
         }
         hrBufferForBlock = []; updateControlButtonsState();
-        if (dailySessionLog.length > 0) console.log("Resumen sesión Trackio:", dailySessionLog); // Mensaje de consola actualizado
+        if (dailySessionLog.length > 0) console.log("Resumen sesión Trackio:", dailySessionLog);
     }
 }
 ui.btnStartStopRealtimeAnalysis.addEventListener('click', () => analysisIntervalTimerId ? stopRealtimeAnalysis() : startRealtimeAnalysis());
 
 document.addEventListener('DOMContentLoaded', async () => {
-    try { await initDB(); await loadProfileFromDB(); } catch (e) { console.error("Error crítico al iniciar Trackio:", e); alert("Error crítico. Revisa consola."); } // Mensaje de error actualizado
+    try { await initDB(); await loadProfileFromDB(); } catch (e) { console.error("Error crítico al iniciar Trackio:", e); alert("Error crítico. Revisa consola."); }
     ui.btnShowSessionChart.classList.add('hidden');
     if (ui.btnShowHistory) ui.btnShowHistory.addEventListener('click', openHistoryModal);
     if (ui.historyModalClose) ui.historyModalClose.addEventListener('click', () => closeModal(ui.historyModal));
@@ -483,4 +522,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     ui.btnOpenConnectBleModal.innerHTML = `<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.136 12.001a8.25 8.25 0 0113.728 0M1.987 8.965A11.25 11.25 0 0122.013 8.965" /></svg>Conectar Dispositivo BLE`;
     ui.bleGlobalStatus.textContent = 'Dispositivo BLE: No conectado';
+
+    // Actualizar el año en el pie de página
+    const yearSpan = document.getElementById('currentYear');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
 });
