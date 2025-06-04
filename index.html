@@ -182,14 +182,21 @@
     </div>
 
     <!-- Modales -->
+        <!-- Modales -->
     <div id="helpModal" class="modal" role="dialog" aria-labelledby="helpModalTitle" aria-modal="true">
         <div class="modal-content max-w-xl">
             <span id="helpModalClose" class="modal-close-btn" role="button" tabindex="0" aria-label="Cerrar ventana de ayuda">×</span>
-            <h3 id="helpModalTitle" class="text-xl font-semibold mb-4 text-blue-600">Acerca de la Calibración y Leyenda de Trackio</h3> <!-- NOMBRE CAMBIADO -->
+            <h3 id="helpModalTitle" class="text-xl font-semibold mb-4 text-blue-600">Acerca de la Calibración y Leyenda de Trackio</h3>
             <div class="space-y-3 text-gray-700 text-sm">
-                <p>La calibración de frecuencia cardíaca es un paso crucial para que <strong class="font-semibold">Trackio</strong> pueda entender tus patrones de pulso únicos y así ayudarte a <strong class="font-semibold">medir tu concentración en el trabajo</strong> y <strong class="font-semibold">monitorizar el estrés</strong>. Tienes dos opciones:</p> <!-- NOMBRE CAMBIADO -->
+                <!-- AVISO IMPORTANTE SOBRE EL NAVEGADOR -->
+                <div class="p-3 mb-4 bg-orange-100 border-l-4 border-orange-500 text-orange-700">
+                    <p class="font-bold">Requisito del Navegador:</p>
+                    <p>Trackio utiliza Web Bluetooth para conectarse a tu pulsera, una tecnología que actualmente tiene el mejor soporte en navegadores basados en Chromium como <strong class="font-semibold">Google Chrome</strong> y <strong class="font-semibold">Microsoft Edge</strong> en versiones de escritorio (Windows, macOS, Linux) y Android. Es posible que otras combinaciones de navegador/sistema operativo no funcionen correctamente.</p>
+                </div>
+
+                <p>La calibración de frecuencia cardíaca es un paso crucial para que <strong class="font-semibold">Trackio</strong> pueda entender tus patrones de pulso únicos y así ayudarte a <strong class="font-semibold">medir tu concentración en el trabajo</strong> y <strong class="font-semibold">monitorizar el estrés</strong>. Tienes dos opciones:</p>
                 <h4 class="font-semibold mt-3 text-base">1. Calibración Manual (Recomendado):</h4>
-                <p>Mides tu pulso con tu dispositivo de medición cardíaca (compatible con Bluetooth Low Energy - BLE), comúnmente una pulsera, en tres situaciones distintas:</p>
+                <p>Mides tu pulso con tu dispositivo de medición cardíaca (compatible con Bluetooth Low Energy - BLE), comúnmente una pulsera, en tres situaciones distintas. <strong class="font-semibold">Asegúrate de estar usando un navegador compatible como Google Chrome para esta función.</strong></p>
                 <ul class="list-disc list-inside ml-4 space-y-1">
                     <li><strong>Reposo / Relajado (3 min):</strong> Medir tu pulso en total calma, tumbado/a.</li>
                     <li><strong>En Calma Activa (Concentración Cognitiva) (5 min):</strong> Medir tu pulso mientras realizas una tarea tranquila que requiera tu concentración.</li>
@@ -197,7 +204,7 @@
                 </ul>
                 <p>Se registrarán tu FC media, mínima, máxima y el rango para cada fase para un <strong class="font-semibold">análisis de frecuencia cardíaca para productividad</strong> más preciso.</p>
                 <h4 class="font-semibold mt-3 text-base">2. Usar Valores Estimados por Edad (Rápido):</h4>
-                <p>Usa valores promedio de FC basados en tu edad. Menos precisos, pero útiles si no tienes un dispositivo BLE o tiempo para una calibración completa.</p>
+                <p>Usa valores promedio de FC basados en tu edad. Menos precisos, pero útiles si no tienes un dispositivo BLE o tiempo para una calibración completa (o si tu navegador no es compatible con Web Bluetooth).</p>
                 <p class="mt-2 text-xs text-gray-500">Es importante que tu edad esté guardada en tu perfil.</p>
             </div>
             <hr class="my-6 border-gray-300">
@@ -220,7 +227,7 @@
                 <tr><td class="p-2 border-b">Estresado</td><td class="p-2 border-b">> 0.15 o SI > 150-200</td><td class="p-2 border-b">> ~150-200</td><td class="p-2 border-b">Estrés, tensión, fatiga.</td></tr>
                 <tr><td class="p-2 border-b">Indeterminado</td><td class="p-2 border-b">N/A</td><td class="p-2 border-b">N/A</td><td class="p-2 border-b">Datos insuficientes.</td></tr>
                 </tbody></table></div>
-                <p class="mt-4 text-xs text-gray-500">💡 Calibra para obtener resultados más precisos para ti. Trackio es una de las <strong class="font-semibold">herramientas de bienestar para empresas</strong> que puedes usar individualmente.</p> <!-- NOMBRE CAMBIADO -->
+                <p class="mt-4 text-xs text-gray-500">💡 Calibra para obtener resultados más precisos para ti. Trackio es una de las <strong class="font-semibold">herramientas de bienestar para empresas</strong> que puedes usar individualmente.</p>
             </div>
         </div>
     </div>
