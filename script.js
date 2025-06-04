@@ -1,5 +1,6 @@
-const DB_NAME = 'TrakioDB_Direct'; 
-const DB_VERSION = 2;
+// NOMBRE DE LA APP: Trackio
+const DB_NAME = 'TrackioDB_Direct'; // CAMBIADO para consistencia con "Trackio" (VER NOTA ARRIBA)
+const DB_VERSION = 2; // Si cambias DB_NAME, la versión puede seguir siendo la misma o resetearse
 const PROFILE_STORE_NAME = 'userProfileStore';
 const SESSION_LOG_STORE_NAME = 'sessionLogsStore';
 let db;
@@ -65,11 +66,18 @@ function initDB() { return new Promise((resolve, reject) => {
     if (db) return resolve(db);
     const request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onerror = e => { console.error("DB error:", e.target.error); reject(e.target.error); };
-    request.onsuccess = e => { db = e.target.result; resolve(db); };
+    request.onsuccess = e => { db = e.target.result; console.log(`Trackio DB "${DB_NAME}" abierta.`); resolve(db); };
     request.onupgradeneeded = e => {
+        console.log(`Trackio DB: onupgradeneeded para versión ${DB_VERSION}`);
         const tempDb = e.target.result;
-        if (!tempDb.objectStoreNames.contains(PROFILE_STORE_NAME)) tempDb.createObjectStore(PROFILE_STORE_NAME, { keyPath: 'id' });
-        if (!tempDb.objectStoreNames.contains(SESSION_LOG_STORE_NAME)) tempDb.createObjectStore(SESSION_LOG_STORE_NAME, { keyPath: 'sessionId' });
+        if (!tempDb.objectStoreNames.contains(PROFILE_STORE_NAME)) {
+            tempDb.createObjectStore(PROFILE_STORE_NAME, { keyPath: 'id' });
+            console.log(`Object store "${PROFILE_STORE_NAME}" creado.`);
+        }
+        if (!tempDb.objectStoreNames.contains(SESSION_LOG_STORE_NAME)) {
+            tempDb.createObjectStore(SESSION_LOG_STORE_NAME, { keyPath: 'sessionId' });
+            console.log(`Object store "${SESSION_LOG_STORE_NAME}" creado.`);
+        }
     };
 });}
 function saveUserProfile(profileData) { return new Promise(async (resolve, reject) => {
@@ -354,7 +362,7 @@ ui.btnRunSelectedPhase.addEventListener('click', runSelectedPhaseMeasurement);
 ui.btnCancelCurrentPhase.addEventListener('click', () => { if(calibrationSession.isRunning && !confirm("¿Cancelar medición manual?")) return; finishCalibrationPhaseMeasurement(true); });
 ui.btnSaveCalibration.addEventListener('click', () => handleSaveCalibration());
 
-function getHrEstimatesByAge(age) { // Helper function to get estimates
+function getHrEstimatesByAge(age) { 
     const range = AGE_BASED_HR_RANGES.find(r => age >= r.ageMin && age <= r.ageMax);
     if (!range) return null;
     return {
@@ -447,7 +455,7 @@ function stopRealtimeAnalysis() {
     if (analysisIntervalTimerId) {
         clearInterval(analysisIntervalTimerId); analysisIntervalTimerId = null;
         let finalStateProcessed = false;
-        if (hrBufferForBlock.length >= MIN_HR_READINGS_FOR_BLOCK / 4) {
+        if (hrBufferForBlock.length >= MIN_HR_READINGS_FOR_BLOCK / 4) { // Procesar bloque parcial si hay suficientes datos (ej: 1/4 de lo normal)
             const bTA = [...hrBufferForBlock], bST = bTA.length > 0 ? new Date(bTA[0].ts).toISOString() : new Date().toISOString(), hVIB = bTA.map(i => i.hr);
             if (hVIB.length > 0) {
                 const hM=parseFloat(calculateMean(hVIB).toFixed(1)),sH=parseFloat(calculateStdDev(hVIB,hM).toFixed(2)),rRs=estimateRRIntervals(hVIB),eR=rRs.length>1?parseFloat(calculateRMSSD(rRs).toFixed(2)):null,bP=getBaevskyParameters(rRs),sB=bP?calculateBaevskySI(bP):null,iee=calculateIEE(hM),eD=classifyUserStateAdvanced(iee,sB);
@@ -460,13 +468,13 @@ function stopRealtimeAnalysis() {
             else { updateRealtimeStatusDisplay("Seguimiento finalizado", null, null); }
         }
         hrBufferForBlock = []; updateControlButtonsState();
-        if (dailySessionLog.length > 0) console.log("Resumen sesión:", dailySessionLog);
+        if (dailySessionLog.length > 0) console.log("Resumen sesión Trackio:", dailySessionLog); // Mensaje de consola actualizado
     }
 }
 ui.btnStartStopRealtimeAnalysis.addEventListener('click', () => analysisIntervalTimerId ? stopRealtimeAnalysis() : startRealtimeAnalysis());
 
 document.addEventListener('DOMContentLoaded', async () => {
-    try { await initDB(); await loadProfileFromDB(); } catch (e) { console.error("Error crítico al iniciar:", e); alert("Error crítico. Revisa consola."); }
+    try { await initDB(); await loadProfileFromDB(); } catch (e) { console.error("Error crítico al iniciar Trackio:", e); alert("Error crítico. Revisa consola."); } // Mensaje de error actualizado
     ui.btnShowSessionChart.classList.add('hidden');
     if (ui.btnShowHistory) ui.btnShowHistory.addEventListener('click', openHistoryModal);
     if (ui.historyModalClose) ui.historyModalClose.addEventListener('click', () => closeModal(ui.historyModal));
